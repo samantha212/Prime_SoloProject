@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="indexApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Song_Shaker</title>
+    <script src="/vendor/angular/angular.min.js"></script>
+    <script src="/assets/scripts/client.js"></script>
+</head>
+<body>
+    <H1>Hello World!  This is song shaker.</H1>
+
+    <form action="/" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username"/>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="text" name="password" id="password"/>
+        </div>
+        <div>
+            <input type="submit" value="Log In">
+        </div>
+    </form>
+
+    <div ng-controller="RegButtonController">
+        <button ng-click="goToRegistration()">Register as a User</button>
+    </div>
+
+</body>
+</html>
