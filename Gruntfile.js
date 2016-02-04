@@ -3,19 +3,24 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
             build: {
-                cwd: 'client/',
-                src: 'scripts/*.js',
-                dest: 'server/public/assets/scripts'
+                files: [{
+                    expand: true,
+                    src: 'client/*.js',
+                    dest: 'server/public/assets/scripts',
+                }]
+
+                //src: ['client/client.js', 'client/registration.js'],
+                //dest: ['server/public/assets/scripts/client.min.js', 'server/public/assets/scripts/registration.min.js']
             }
         },
         watch: {
             scripts: {
-                files: ['client/client.js'],
-                // tasks: ['jshint','uglify'],
+                files: ['client/client.js', 'client/registration.js'],
+                 tasks: ['uglify'],
                 options: {
                     spawn: false
                 }
-            },
+            }
         },
         copy: {
             main: {
@@ -26,13 +31,9 @@ module.exports = function(grunt) {
                     "angular/angular.min.js.map",
                     "angular-route/angular-route.min.js"
                 ],
-                "dest": "server/public/vendors" +
-                "/"
+                dest: "server/public/vendor/"
             }
         }
-        // jshint: {
-        //     files: 'client/scripts/client.js'
-        // }
     });
 
     grunt.loadNpmTasks('grunt-contrib-copy');
