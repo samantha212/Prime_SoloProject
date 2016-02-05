@@ -35,22 +35,33 @@ router.post('/registration', function(request, response, err){
         var createUser = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
         VALUES ($1, $2, $3, $4, $5);", [regInfo.first, regInfo.last, regInfo.em, regInfo.user, regInfo.password]);
 
-        var prefTableName = "CREATE TABLE user_standard_pref_" + regInfo.user;
-
-        var createStandardSongLibrary = function(){
-            var queryStandardLibrary = client.query("CREATE TABLE user_standard_pref_4\
-               (\
-                username int DEFAULT 4,\
-                song_title int REFERENCES standard_library,\
-                include boolean DEFAULT TRUE\
-                );");
-
-            queryStandardLibrary.on('end', function() { client.end();
-            });
-        }
+        //var prefTableName = "CREATE TABLE user_standard_pref_" + regInfo.user;
+        //var foo = "test"
+        //var prefTableName = "CREATE TABLE user_standard_pref_" + foo;
+        //
+        //var createStandardSongLibrary = function(){
+        //    var queryStandardLibrary = client.query("CREATE TABLE user_standard_pref_paul\
+        //       (\
+        //        username int DEFAULT 4,\
+        //        song_title int,\
+        //        include boolean DEFAULT TRUE\
+        //        );");
+        //
+        //    queryStandardLibrary.on('end', function() {
+        //        client.end();
+        //    });
+        //}
 
         createUser.on('end', function(){
-            createStandardSongLibrary();
+            client.end();
+            if(err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Posted successfully to database!');
+                response.sendStatus(200);
+            }
+            //createStandardSongLibrary();
         });
 
             //createStandardSongLibrary.on('end', function(){
