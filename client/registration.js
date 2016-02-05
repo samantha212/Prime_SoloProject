@@ -27,3 +27,4 @@ registrationApp.controller('registrationController', ['$scope', '$http', '$locat
     }
 
 }]);
+

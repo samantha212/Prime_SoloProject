@@ -15,10 +15,6 @@ router.get('/registration', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/registration.html'));
 });
 
-router.get('/', function(request, response){
-    response.sendFile(path.join(__dirname, '../public/views/login.html'));
-});
-
 //Registration database queries.
 router.post('/registration', function(request, response, err){
     //Capture info sent in request.
@@ -76,6 +72,72 @@ router.get('/fail', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/fail.html'));
 });
 
+router.get('/standard_lib', function(request, response) {
+    console.log('/standard_lib get route hit');
+
+    var thisUser = request.user.username;
+
+    var userStandardLibrary = [];
+
+    console.log('var user is showing as:', thisUser);
+
+    pg.connect(connectionString, function (err, client, done) {
+
+        var getStandardLibrary = client.query("SELECT standard_library.song_id, standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo, user_standard_preferences." + thisUser + " FROM standard_library \
+        INNER JOIN user_standard_preferences\
+        ON user_standard_preferences.song_id = standard_library.song_id;");
+
+        getStandardLibrary.on('row', function (row) {
+            userStandardLibrary.push(row);
+        });
+
+        getStandardLibrary.on('end', function () {
+            client.end();
+            return response.json(userStandardLibrary);
+        });
+
+        if (err) {
+            console.log('Error', err);
+            return response.send('Error', err);
+        }
+
+    });
+});
+
+router.get('/custom_lib', function(request, response) {
+    console.log('/custom_lib get route hit');
+    console.log(request.user);
+    var thisUser = request.user.username;
+
+    var userCustomLibrary = [];
+
+    console.log('var thisUser is showing as:', thisUser);
+
+    pg.connect(connectionString, function (err, client, done) {
+
+        var getStandardLibrary = client.query('SELECT * FROM user_custom_pref\
+        WHERE username = \'' + thisUser + '\';');
+
+        getStandardLibrary.on('row', function (row) {
+            userCustomLibrary.push(row);
+        });
+
+        getStandardLibrary.on('end', function () {
+            client.end();
+            return response.json(userCustomLibrary);
+        });
+
+        if (err) {
+            console.log('Error', err);
+            return response.send('Error', err);
+        }
+
+    });
+});
+
+router.get('/', function(request, response){
+    response.sendFile(path.join(__dirname, '../public/views/login.html'));
+});
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/home',

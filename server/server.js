@@ -39,12 +39,12 @@ app.use(passport.session());
 app.use('/', index);
 
 passport.serializeUser(function(user, done){
-    console.log('serializeUser', user);
+    //console.log('serializeUser', user);
     done(null, user.user_id);
 });
 
 passport.deserializeUser(function(id, done){
-    console.log('deserializeUser', id);
+    //console.log('deserializeUser', id);
     pg.connect(connectionString, function(err, client){
         var user = {};
 
@@ -52,7 +52,7 @@ passport.deserializeUser(function(id, done){
 
         query.on('row', function(row){
             user = row;
-            console.log('User object', user);
+            //console.log('User object', user);
             done(null, user);
         })
     })

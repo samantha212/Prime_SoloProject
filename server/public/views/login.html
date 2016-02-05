@@ -6,9 +6,8 @@
     <script src="/vendor/angular/angular.min.js"></script>
     <script src="/assets/scripts/client/login.js"></script>
 </head>
-<body>
+<body ng-controller="ButtonController">
     <H1>Hello World!  This is song shaker.</H1>
-
     <form action="/" method="post">
         <div>
             <label for="username">Username:</label>
@@ -23,10 +22,12 @@
         </div>
     </form>
 
-    <div ng-controller="ButtonController">
+    <div>
         <p>If you are not a registered Song Shaker user, please click here to register.</p>
         <button ng-click="goToRegistration()">Register</button>
     </div>
+
+
 
 </body>
 </html>

@@ -57,13 +57,48 @@ mainApp.controller('AddSongController', function() {
 
 });
 
-mainApp.controller('CustomLibraryController', function() {
+mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http, $scope) {
+    $scope.customLibrary = [];
 
-});
+    getCustomLib();
 
-mainApp.controller('StandardLibraryController', function() {
+    //This runs twice when the page is loaded.  Revisit to address.
+    function getCustomLib(){
+        $http({
+            method: 'GET',
+            url: '/custom_lib'
+        }).then(function successCallback(response){
+            console.log(response);
+            $scope.customLibrary = response.data;
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    }
 
-});
+}]);
+
+mainApp.controller('StandardLibraryController', ['$http', '$scope', function($http, $scope) {
+
+    $scope.library = [];
+
+    getLib();
+
+    //This runs twice when the page is loaded.  Revisit to address.
+
+
+    function getLib(){
+        $http({
+            method: 'GET',
+            url: '/standard_lib'
+        }).then(function successCallback(response){
+            console.log(response);
+            $scope.library = response.data;
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    }
+
+}]);
 
 mainApp.controller('SetListController', function() {
 
