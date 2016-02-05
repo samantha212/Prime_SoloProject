@@ -16,7 +16,7 @@ router.get('/registration', function(request, response){
 });
 
 router.get('/', function(request, response){
-    response.sendFile(path.join(__dirname, '../public/views/index.html'));
+    response.sendFile(path.join(__dirname, '../public/views/login.html'));
 });
 
 router.post('/registration', function(request, response, err){
@@ -28,29 +28,42 @@ router.post('/registration', function(request, response, err){
         password: request.body.password
     };
 
-    if (!regInfo.user || !regInfo.password) {
-        console.log('invalid input');
-        return response.sendStatus(404);
-    }
     console.log('Registrant info', regInfo);
-    //console.log('Request', request);
-
 
 
     pg.connect(connectionString, function(err, client, done){
-       var query = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
-        VALUES ($1, $2, $3, $4, $5)", [regInfo.first, regInfo.last, regInfo.em, regInfo.user, regInfo.password]);
+        var createUser = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
+        VALUES ($1, $2, $3, $4, $5);", [regInfo.first, regInfo.last, regInfo.em, regInfo.user, regInfo.password]);
 
-        query.on('end', function(){
-            if(err) {
-                console.log('Error', err);
-                return response.send('Error', err);
-            } else {
-                console.log('Posted successfully to database!');
-                response.sendStatus(200);
-            }
-            client.end();
+        var prefTableName = "CREATE TABLE user_standard_pref_" + regInfo.user;
+
+        var createStandardSongLibrary = function(){
+            var queryStandardLibrary = client.query("CREATE TABLE user_standard_pref_4\
+               (\
+                username int DEFAULT 4,\
+                song_title int REFERENCES standard_library,\
+                include boolean DEFAULT TRUE\
+                );");
+
+            queryStandardLibrary.on('end', function() { client.end();
+            });
+        }
+
+        createUser.on('end', function(){
+            createStandardSongLibrary();
         });
+
+            //createStandardSongLibrary.on('end', function(){
+            //if(err) {
+            //    console.log('Error', err);
+            //    return response.send('Error', err);
+            //} else {
+            //    console.log('Posted successfully to database!');
+            //    response.sendStatus(200);
+            //}
+            //    Need to add an additional query to add rows to the standard preferences database.
+            //client.end();
+        //});
 
     });
 

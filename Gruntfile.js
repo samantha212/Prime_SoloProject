@@ -8,14 +8,11 @@ module.exports = function(grunt) {
                     src: 'client/*.js',
                     dest: 'server/public/assets/scripts',
                 }]
-
-                //src: ['client/client.js', 'client/registration.js'],
-                //dest: ['server/public/assets/scripts/client.min.js', 'server/public/assets/scripts/registration.min.js']
             }
         },
         watch: {
             scripts: {
-                files: ['client/client.js', 'client/registration.js'],
+                files: ['client/client.js', 'client/registration.js', 'client/login.js'],
                  tasks: ['uglify'],
                 options: {
                     spawn: false

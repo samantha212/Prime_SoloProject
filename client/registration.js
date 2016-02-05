@@ -19,6 +19,10 @@ registrationApp.controller('registrationController', ['$scope', '$http', '$locat
                 window.location.assign('http://localhost:3000/');
         }, function errorCallback(response) {
             console.log('Error', response.status);
+            //$scope.failStatus = false;
+            //if (response.status === "Error"){
+            //    $scope.failStatus = true;
+            //}
         });
     }
 

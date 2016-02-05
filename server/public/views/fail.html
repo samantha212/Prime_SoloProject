@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="indexApp">
 <head>
     <meta charset="UTF-8">
     <title>Fail</title>
+    <script src="/vendor/angular/angular.min.js"></script>
+    <script src="/assets/scripts/client/login.js"></script>
 </head>
-<body>
+<body ng-controller="ButtonController">
     <h1>Log in failed.</h1>
-<!--Need to add a controller to get this button to work.-->
-    <div ng-controller="RegButtonController">
+
+    <div>
         <button ng-click="goToRegistration()">Register as a User</button>
+    </div>
+
+     <div>
+        <button ng-click="goToLogIn()">Return to Log In Page</button>
     </div>
 
 </body>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Song_Shaker</title>
     <script src="/vendor/angular/angular.min.js"></script>
-    <script src="/assets/scripts/client/client.js"></script>
+    <script src="/assets/scripts/client/login.js"></script>
 </head>
 <body>
     <H1>Hello World!  This is song shaker.</H1>
@@ -23,8 +23,9 @@
         </div>
     </form>
 
-    <div ng-controller="RegButtonController">
-        <button ng-click="goToRegistration()">Register as a User</button>
+    <div ng-controller="ButtonController">
+        <p>If you are not a registered Song Shaker user, please click here to register.</p>
+        <button ng-click="goToRegistration()">Register</button>
     </div>
 
 </body>

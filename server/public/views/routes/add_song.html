@@ -1,0 +1,40 @@
+<div ng-controller="AddSongController">
+    <h1>Add a Song to Your Custom Database</h1>
+    <p>Add details/info here.</p>
+
+    <form action="/addsong" method="post">
+        <div>
+            <label for="title">Song Title:</label>
+            <input type="text" name="title" id="title"/>
+        </div>
+        <div>
+            <label for="artist">Artist:</label>
+            <input type="text" name="artist" id="artist"/>
+        </div>
+        <div>
+            <label for="key">Key:</label>
+            <input type="text" name="key" id="key"/>
+        </div>
+        <div>
+            <label for="tempo">Tempo Category:</label>
+            <select name="tempo" id="tempo">
+                <option value="one">Slow: 0-80 beats per minute</option>
+                <option value="two">Medium: 81-104 beats per minute</option>
+                <option value="three">Fast: 105-300 beats per minute</option>
+
+            </select>
+
+        </div>
+        <div>
+            <input type="submit" value="Add Song to Custom Song Library">
+        </div>
+    </form>
+
+
+    <br>
+
+    <button><a href="/songfail">View Song Add Failed Page</a></button>
+    <button><a href="/songsuccess">View Song Add Success Page</a></button>
+
+
+</div>
