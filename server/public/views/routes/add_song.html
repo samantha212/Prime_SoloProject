@@ -5,28 +5,26 @@
     <form action="/addsong" method="post">
         <div>
             <label for="title">Song Title:</label>
-            <input type="text" name="title" id="title"/>
+            <input type="text" name="title" id="title" data-ng-model="song.title"/>
         </div>
         <div>
             <label for="artist">Artist:</label>
-            <input type="text" name="artist" id="artist"/>
+            <input type="text" name="artist" id="artist" data-ng-model="song.artist"/>
         </div>
         <div>
             <label for="key">Key:</label>
-            <input type="text" name="key" id="key"/>
+            <input type="text" name="key" id="key" data-ng-model="song.key"/>
         </div>
         <div>
             <label for="tempo">Tempo Category:</label>
             <select name="tempo" id="tempo">
-                <option value="one">Slow: 0-80 beats per minute</option>
-                <option value="two">Medium: 81-104 beats per minute</option>
-                <option value="three">Fast: 105-300 beats per minute</option>
-
+                <option value="Slow" data-ng-model="song.tempo">Slow: 0-86 beats per minute</option>
+                <option value="Medium" data-ng-model="song.tempo">Medium: 87-104 beats per minute</option>
+                <option value="Fast" data-ng-model="song.tempo">Fast: 105-300 beats per minute</option>
             </select>
-
         </div>
         <div>
-            <input type="submit" value="Add Song to Custom Song Library">
+            <input type="submit" value="Add Song to Custom Song Library" ng-click="addSong()">
         </div>
     </form>
 
@@ -38,3 +36,14 @@
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+

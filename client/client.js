@@ -53,20 +53,46 @@ mainApp.controller('WelcomeController', function() {
 
 });
 
-mainApp.controller('AddSongController', function() {
+mainApp.controller('AddSongController', ['$location', '$scope', function($location, $scope) {
+    $scope.song = {};
+    $scope.addSong = sendSong;
+    //Do I need to send "/songsuccess", "addsong/songsuccess", or "http://localhost:3000/songsuccess" to go in the $location.path()??
+    var currentLocation = $location.absUrl();
+    var newLocation = currentLocation + ('/songsuccess');
+    console.log(currentLocation);
+    console.log(newLocation);
+    function sendSong() {
+        $http({
+            url: '/addsong',
+            method: 'POST',
+            data: $scope.song
+        }).then(function successCallback(response) {
+            //$location.path(newLocation);
+            console.log(response);
+            //$location.path(newLocation);
+            $location.path('/songsuccess');
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    }
 
-});
+    //$locationProvider.html5Mode({
+    //    enabled: true,
+    //    requireBase: false
+    //});
+}]);
 
 mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http, $scope) {
     $scope.customLibrary = [];
 
-    getCustomLib();
+    $scope.getCustom = getCustomLib;
 
     //This runs twice when the page is loaded.  Revisit to address.
     function getCustomLib(){
         $http({
             method: 'GET',
-            url: '/custom_lib'
+            url: '/custom_lib',
+            data: song
         }).then(function successCallback(response){
             console.log(response);
             $scope.customLibrary = response.data;
@@ -80,11 +106,37 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
 mainApp.controller('StandardLibraryController', ['$http', '$scope', function($http, $scope) {
 
     $scope.library = [];
+    $scope.checkbox = {};
+    $scope.songStatus = {};
 
-    getLib();
+    $scope.deactivateSong = function(info) {
+        console.log("deactivate", info);
 
-    //This runs twice when the page is loaded.  Revisit to address.
+        $http({
+            method: 'POST',
+            url: '/deactivate',
+            data: info
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    };
+    $scope.activateSong = function(info) {
+        console.log("activate", info.song_id);
 
+        $http({
+            method: 'POST',
+            url: '/activate',
+            data: info
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+
+    };
+    $scope.getStandard = getLib;
 
     function getLib(){
         $http({
@@ -94,9 +146,10 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', function($ht
             console.log(response);
             $scope.library = response.data;
         }, function errorCallback(response) {
-            console.log('Error', response.status);
+            console.log('Error', response);
         });
     }
+
 
 }]);
 

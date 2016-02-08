@@ -13,25 +13,4 @@ app.controller('ButtonController', ['$scope', '$http', '$location', function($sc
 }]);
 
 
-// Potential factory (to be moved to separate file if used).
-//
-//app.factory('userData', ['$http', function($http){
-//    var currentUser = {
-//        user_id: '',
-//        first_name: '',
-//        last_name: '',
-//        email_address: '',
-//        username: '',
-//        password: ''
-//    };
-//
-//    var setUser = function() {
-//        currentUser.username = username;
-//        console.log("currentUser.username set:", currentUser.username);
-//    };
-//
-//    return {
-//        currentUser: currentUser,
-//        setUser: setUser
-//    }
-//}]);
+

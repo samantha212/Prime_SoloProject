@@ -37,12 +37,24 @@ router.post('/registration', function(request, response, err){
         var createUser = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
         VALUES ($1, $2, $3, $4, $5);", [regInfo.first, regInfo.last, regInfo.em, regInfo.user, regInfo.password]);
 
+
+        var usernameHolder;
+
+        var checkUsername = function(){
+            var checkUser = client.query("SELECT * FROM users WHERE users.username = '$1';", [regInfo.user]);
+
+            checkUser.on('row', function(row){
+                usernameHolder = row;
+            })
+        };
+        //Should try to reformat this to prevent injection attack.
         var queryString = "ALTER TABLE user_standard_preferences ADD " + regInfo.user + " boolean DEFAULT TRUE;";
 
         var updateStandardPref = function(){
-            var queryStandardLibrary = client.query(queryString);
+            //var queryStandardLibrary = client.query("ALTER TABLE user_standard_preferences ADD || quote_ident(regInfo.user) || boolean DEFAULT TRUE;");
+            var queryAddStandardPrefCol = client.query(queryString);
 
-            queryStandardLibrary.on('end', function() {
+            queryAddStandardPrefCol.on('end', function() {
                 if(err) {
                     console.log('Error', err);
                     return response.send('Error', err);
@@ -79,11 +91,10 @@ router.get('/standard_lib', function(request, response) {
 
     var userStandardLibrary = [];
 
-    console.log('var user is showing as:', thisUser);
-
     pg.connect(connectionString, function (err, client, done) {
-
-        var getStandardLibrary = client.query("SELECT standard_library.song_id, standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo, user_standard_preferences." + thisUser + " FROM standard_library \
+        //Should probably fix this one, too, but I think it's okay, since the un comes from the session, and it was already validated via registration.
+        var getStandardLibrary = client.query("SELECT standard_library.song_id, standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo, user_standard_preferences." + thisUser + " \
+        FROM standard_library \
         INNER JOIN user_standard_preferences\
         ON user_standard_preferences.song_id = standard_library.song_id;");
 
@@ -107,7 +118,7 @@ router.get('/standard_lib', function(request, response) {
 router.get('/custom_lib', function(request, response) {
     console.log('/custom_lib get route hit');
     console.log(request.user);
-    var thisUser = request.user.username;
+    var thisUser = request.user.user_id;
 
     var userCustomLibrary = [];
 
@@ -115,14 +126,14 @@ router.get('/custom_lib', function(request, response) {
 
     pg.connect(connectionString, function (err, client, done) {
 
-        var getStandardLibrary = client.query('SELECT * FROM user_custom_pref\
-        WHERE username = \'' + thisUser + '\';');
+        var getCustomLibrary = client.query('SELECT * FROM user_custom_pref\
+        WHERE user_id = \'' + thisUser + '\';');
 
-        getStandardLibrary.on('row', function (row) {
+        getCustomLibrary.on('row', function (row) {
             userCustomLibrary.push(row);
         });
 
-        getStandardLibrary.on('end', function () {
+        getCustomLibrary.on('end', function () {
             client.end();
             return response.json(userCustomLibrary);
         });
@@ -138,6 +149,111 @@ router.get('/custom_lib', function(request, response) {
 router.get('/', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/login.html'));
 });
+
+router.post('/addsong', function(request, response){
+    var songInfo = {
+        title: request.body.title,
+        artist: request.body.artist,
+        key: request.body.key,
+        tempo: request.body.tempo,
+        userID: request.user.user_id
+    };
+
+    pg.connect(connectionString, function(err, client, done){
+        var addSongToCustom = client.query("INSERT INTO user_custom_pref (title, artist, song_key, tempo, user_id)\
+        VALUES ($1, $2, $3, $4, $5);", [songInfo.title, songInfo.artist, songInfo.key, songInfo.tempo, songInfo.userID]);
+
+        if (err) {
+            console.log('Error', err);
+            client.end();
+            return response.send('error');
+        }
+
+        addSongToCustom.on('end', function() {
+            if(err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Posted successfully to database!');
+                response.sendStatus(200);
+                console.log(response);
+            }
+            client.end();
+        });
+    });
+
+});
+
+router.post('/deactivate', function(request, response){
+    console.log(request.body);
+    var songId = request.body.song_id;
+
+    pg.connect(connectionString, function(err, client, done) {
+        var deactivateSong = client.query("UPDATE user_standard_preferences\
+        SET " + request.user.username + "= FALSE\
+        WHERE song_id = $1;", [songId]);
+
+        if (err) {
+            console.log('Error', err);
+            client.end();
+            return response.send('error');
+        }
+
+        deactivateSong.on('end', function () {
+            if (err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Successfully updated song status to FALSE.');
+                response.sendStatus(200);
+                //console.log(response);
+            }
+            client.end();
+
+
+        });
+    });
+});
+
+router.post('/activate', function(request, response){
+    console.log(request.body);
+    var songId = request.body.song_id;
+
+    pg.connect(connectionString, function(err, client, done) {
+        var deactivateSong = client.query("UPDATE user_standard_preferences\
+        SET " + request.user.username + "= TRUE\
+        WHERE song_id = $1;", [songId]);
+
+        if (err) {
+            console.log('Error', err);
+            client.end();
+            return response.send('error');
+        }
+
+        deactivateSong.on('end', function () {
+            if (err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Successfully updated song status to TRUE.');
+                response.sendStatus(200);
+                //console.log(response);
+            }
+            client.end();
+
+
+        });
+    });
+});
+
+
+//router.get('/addsong/success', function(request, response){
+//    response.sendFile(path.join(__dirname, '../public/views/routes/song_success.html'));
+//});
+//
+//router.get('/addsong/error', function(request, response){
+//    response.sendFile(path.join(__dirname, '../public/views/routes/song_fail.html'));
+//});
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/home',

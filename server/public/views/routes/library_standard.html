@@ -1,4 +1,5 @@
-<div ng-controller="StandardLibraryController">
+<!--<div ng-controller="StandardLibraryController">-->
+<div ng-controller="StandardLibraryController" ng-init="getStandard()">
     <h1>Standard Song Shaker Library</h1>
     <button><a href="/standardlibrary">View Standard Library Page</a></button>
     <button><a href="/customlibrary">View Custom Library Page</a></button>
@@ -6,5 +7,13 @@
     <p>If you do not want a song to be included in your set lists, please click its corresponding "inactivate" checkbox to the left of the song details.</p>
     <p>You may reactivate the song by unchecking that box.</p>
 
-    <p>{{library}}</p>
+    <div ng-repeat="song in library track by song.song_id">
+            <p>Artist: {{song.artist}}</p>
+            <p>Title: {{song.title}}</p>
+            <p>Key: {{song.key}}</p>
+            <button id="{{song.song_id}}" ng-click="deactivateSong(song)">Deactivate Song Button</button>
+            <button id="{{song.song_id}}" ng-click="activateSong(song)">Activate Song Button</button>
+        </div>
+        <br>
+    </div>
 </div>
