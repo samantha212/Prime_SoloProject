@@ -2,7 +2,6 @@
     <h1>Add a Song to Your Custom Database</h1>
     <p>Add details/info here.</p>
 
-    <form action="/addsong" method="post">
         <div>
             <label for="title">Song Title:</label>
             <input type="text" name="title" id="title" data-ng-model="song.title"/>
@@ -17,14 +16,14 @@
         </div>
         <div>
             <label for="tempo">Tempo Category:</label>
-            <select name="tempo" id="tempo">
-                <option value="Slow" data-ng-model="song.tempo">Slow: 0-86 beats per minute</option>
-                <option value="Medium" data-ng-model="song.tempo">Medium: 87-104 beats per minute</option>
-                <option value="Fast" data-ng-model="song.tempo">Fast: 105-300 beats per minute</option>
+            <select name="tempo" id="tempo" data-ng-model="song.tempo">
+                <option value="Slow">Slow: 0-86 beats per minute</option>
+                <option value="Medium">Medium: 87-104 beats per minute</option>
+                <option value="Fast">Fast: 105-300 beats per minute</option>
             </select>
         </div>
         <div>
-            <input type="submit" value="Add Song to Custom Song Library" ng-click="addSong()">
+            <button ng-click="addSong()">Add Song to Custom Song Library</button>
         </div>
     </form>
 

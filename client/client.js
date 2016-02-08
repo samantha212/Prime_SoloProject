@@ -53,7 +53,7 @@ mainApp.controller('WelcomeController', function() {
 
 });
 
-mainApp.controller('AddSongController', ['$location', '$scope', function($location, $scope) {
+mainApp.controller('AddSongController', ['$http', '$location', '$scope', function($http, $location, $scope) {
     $scope.song = {};
     $scope.addSong = sendSong;
     //Do I need to send "/songsuccess", "addsong/songsuccess", or "http://localhost:3000/songsuccess" to go in the $location.path()??
@@ -73,6 +73,8 @@ mainApp.controller('AddSongController', ['$location', '$scope', function($locati
             $location.path('/songsuccess');
         }, function errorCallback(response) {
             console.log('Error', response.status);
+            $location.path('/songfail');
+
         });
     }
 
@@ -91,8 +93,7 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
     function getCustomLib(){
         $http({
             method: 'GET',
-            url: '/custom_lib',
-            data: song
+            url: '/custom_lib'
         }).then(function successCallback(response){
             console.log(response);
             $scope.customLibrary = response.data;

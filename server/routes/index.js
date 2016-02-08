@@ -9,6 +9,7 @@ var pg = require('pg');
 var router = express.Router();
 var connectionString = 'postgres://localhost:5432/song_shaker';
 
+pg.defaults.poolsize = 30;
 
 router.get('/registration', function(request, response){
     console.log(request);
@@ -72,6 +73,8 @@ router.post('/registration', function(request, response, err){
 
     });
 
+    pg.end();
+
 });
 
 //Success and failure redirects for user registration.
@@ -105,19 +108,21 @@ router.get('/standard_lib', function(request, response) {
         getStandardLibrary.on('end', function () {
             client.end();
             return response.json(userStandardLibrary);
+            done();
         });
 
         if (err) {
             console.log('Error', err);
             return response.send('Error', err);
-        }
 
+        }
     });
 });
 
 router.get('/custom_lib', function(request, response) {
     console.log('/custom_lib get route hit');
     console.log(request.user);
+
     var thisUser = request.user.user_id;
 
     var userCustomLibrary = [];
@@ -130,10 +135,12 @@ router.get('/custom_lib', function(request, response) {
         WHERE user_id = \'' + thisUser + '\';');
 
         getCustomLibrary.on('row', function (row) {
+            console.log("row is firing");
             userCustomLibrary.push(row);
         });
 
         getCustomLibrary.on('end', function () {
+            console.log("end is fired");
             client.end();
             return response.json(userCustomLibrary);
         });
@@ -142,8 +149,9 @@ router.get('/custom_lib', function(request, response) {
             console.log('Error', err);
             return response.send('Error', err);
         }
-
     });
+
+    pg.end();
 });
 
 router.get('/', function(request, response){
@@ -151,6 +159,8 @@ router.get('/', function(request, response){
 });
 
 router.post('/addsong', function(request, response){
+    console.log(request);
+
     var songInfo = {
         title: request.body.title,
         artist: request.body.artist,
@@ -159,28 +169,34 @@ router.post('/addsong', function(request, response){
         userID: request.user.user_id
     };
 
-    pg.connect(connectionString, function(err, client, done){
-        var addSongToCustom = client.query("INSERT INTO user_custom_pref (title, artist, song_key, tempo, user_id)\
-        VALUES ($1, $2, $3, $4, $5);", [songInfo.title, songInfo.artist, songInfo.key, songInfo.tempo, songInfo.userID]);
+    if(!songInfo.title || !songInfo.artist || !songInfo.key || !songInfo.tempo || !songInfo.userID) {
+        response.sendStatus(500);
+    } else {
+        pg.connect(connectionString, function(err, client, done){
 
-        if (err) {
-            console.log('Error', err);
-            client.end();
-            return response.send('error');
-        }
 
-        addSongToCustom.on('end', function() {
-            if(err) {
+            var addSongToCustom = client.query("INSERT INTO user_custom_pref (title, artist, song_key, tempo, user_id)\
+            VALUES ($1, $2, $3, $4, $5);", [songInfo.title, songInfo.artist, songInfo.key, songInfo.tempo, songInfo.userID]);
+
+            if (err) {
                 console.log('Error', err);
-                return response.send('Error', err);
-            } else {
-                console.log('Posted successfully to database!');
-                response.sendStatus(200);
-                console.log(response);
+                client.end();
+                return response.send('error');
             }
-            client.end();
+
+            addSongToCustom.on('end', function() {
+                if(err) {
+                    console.log('Error', err);
+                    return response.send('Error', err);
+                } else {
+                    console.log('Posted successfully to database!');
+                    response.send("Success add song!");
+                    console.log(response);
+                }
+                client.end();
+            });
         });
-    });
+    }
 
 });
 

@@ -8,6 +8,8 @@ var pg = require('pg');
 var bodyParser = require('body-parser');
 var path = require('path');
 
+pg.defaults.poolsize = 30;
+
 var index = require('./routes/index');
 
 var localStrategy = require('passport-local').Strategy;
@@ -30,8 +32,10 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: false,
-    cookie: {maxAge: 600000, secure: false}
+    //cookie: {maxAge: 600000, secure: false}
+    cookie: {secure: false}
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
