@@ -101,22 +101,30 @@ router.get('/standard_lib', function(request, response) {
         INNER JOIN user_standard_preferences\
         ON user_standard_preferences.song_id = standard_library.song_id;");
 
+        var updateID = function(object){
+            var songRow = object;
+            //var copyFromKey = "object." + thisUser;
+            songRow.status = object[thisUser];
+            return songRow;
+        };
+
         getStandardLibrary.on('row', function (row) {
-            userStandardLibrary.push(row);
+            userStandardLibrary.push(updateID(row));
         });
 
         getStandardLibrary.on('end', function () {
             client.end();
+            //console.log(userStandardLibrary);
             return response.json(userStandardLibrary);
-            done();
         });
 
         if (err) {
             console.log('Error', err);
             return response.send('Error', err);
-
         }
     });
+    pg.end();
+
 });
 
 router.get('/custom_lib', function(request, response) {

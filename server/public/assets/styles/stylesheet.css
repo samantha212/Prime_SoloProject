@@ -1,7 +1,11 @@
-.deactivated {
+body {
+    background-color: lightslategray;
+}
+
+.false {
     color: darkred;
 }
 
-.activated {
+.true {
     color: darkblue;
 }

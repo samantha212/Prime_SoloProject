@@ -7,12 +7,13 @@
     <p>If you do not want a song to be included in your set lists, please click its corresponding "inactivate" checkbox to the left of the song details.</p>
     <p>You may reactivate the song by unchecking that box.</p>
 
-    <div ng-repeat="song in library track by song.song_id">
+    <div ng-repeat="song in library track by song.song_id" >
         <!--<label>Active</label>-->
         <!--<input type="check" ng-model="{{song.song_id}}"-->
         <p>Artist: {{song.artist}}</p>
-        <p>Title: {{song.title}}</p>
+        <p class="{{song.status}}">Title: {{song.title}}</p>
         <p>Key: {{song.key}}</p>
+        <p>song.status = {{song.status}}</p>
         <button id="{{song.song_id}}" ng-click="deactivateSong(song)">Deactivate Song Button</button>
         <button id="{{song.song_id}}" ng-click="activateSong(song)">Activate Song Button</button>
         <br>
