@@ -9,3 +9,8 @@ body {
 .true {
     color: darkblue;
 }
+
+.clicked {
+    text-decoration: underline;
+    font-size: 20px;
+}

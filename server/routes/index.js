@@ -99,7 +99,8 @@ router.get('/standard_lib', function(request, response) {
         var getStandardLibrary = client.query("SELECT standard_library.song_id, standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo, user_standard_preferences." + thisUser + " \
         FROM standard_library \
         INNER JOIN user_standard_preferences\
-        ON user_standard_preferences.song_id = standard_library.song_id;");
+        ON user_standard_preferences.song_id = standard_library.song_id\
+        ORDER BY standard_library.artist;");
 
         var updateID = function(object){
             var songRow = object;
@@ -140,15 +141,16 @@ router.get('/custom_lib', function(request, response) {
     pg.connect(connectionString, function (err, client, done) {
 
         var getCustomLibrary = client.query('SELECT * FROM user_custom_pref\
-        WHERE user_id = \'' + thisUser + '\';');
+            WHERE user_id = \'' + thisUser + '\'\
+            ORDER BY user_custom_pref.artist;');
 
         getCustomLibrary.on('row', function (row) {
-            console.log("row is firing");
+            //console.log("row is firing");
             userCustomLibrary.push(row);
         });
 
         getCustomLibrary.on('end', function () {
-            console.log("end is fired");
+            //console.log("end is fired");
             client.end();
             return response.json(userCustomLibrary);
         });
