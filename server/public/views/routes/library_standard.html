@@ -5,18 +5,18 @@
     <button><a href="/customlibrary">View Custom Library Page</a></button>
     <p>The Song Shaker App comes with the standard library of 200 songs shown below.</p>
     <p>If you do not want a song to be included in your set lists, please click its corresponding "inactivate" checkbox to the left of the song details.</p>
-    <p>You may reactivate the song by unchecking that box.</p>
+    <p ng-class="{strike: deleted, bold: important}">You may reactivate the song by unchecking that box.</p>
+
 
     <div ng-repeat="song in library track by song.song_id">
         <!--Return to ng-class to update formatting.-->
         <div class="{{song.status}}" >
             <p>Artist: {{song.artist}}</p>
-            <p>Title: {{song.title}}</p>
+            <p ng-class="{strike: deleted, bold: important}">Title: {{song.title}}</p>
             <p>Key: {{song.key}}</p>
             <p>song.status = {{song.status}}</p>
-            <button id="{{song.song_id}}" ng-show="{{song.status}}" ng-click="deactivateSong(song)">Deactivate Song Button</button>
-            <button id="{{song.song_id}}" ng-hide="{{song.status}}" ng-click="activateSong(song)">Activate Song Button</button>
-            <br>
+            <p ng-hide="song.status">Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
+            <p ng-show="song.status">Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>
         </div>
     </div>
 </div>

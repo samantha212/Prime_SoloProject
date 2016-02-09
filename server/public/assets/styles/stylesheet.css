@@ -1,5 +1,6 @@
 body {
     background-color: lightslategray;
+    margin: 25px;
 }
 
 .false {
@@ -13,4 +14,16 @@ body {
 .clicked {
     text-decoration: underline;
     font-size: 20px;
+}
+
+.setfalse {
+    background-color: darkgreen;
+    font-size: 20px;
+}
+
+.strike {
+    text-decoration: line-through;
+}
+.bold {
+    font-weight: bold;
 }
