@@ -202,7 +202,8 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
     $scope.setInfo = {
         numSets: '',
         numSongs: ''
-    }
+    };
+    $scope.createdSets = {};
     $scope.getSets = function(){
         console.log($scope.setInfo);
         $http({
@@ -211,6 +212,7 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
             data: $scope.setInfo
         }).then(function successCallback(response){
             console.log(response);
+            $scope.createdSets = response.data;
         }, function errorCallback(response) {
             console.log('Error', response);
         });

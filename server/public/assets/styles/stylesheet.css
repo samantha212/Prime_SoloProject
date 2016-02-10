@@ -4,11 +4,11 @@ body {
 }
 
 .false {
-    color: darkred;
+    background-color: slategray;
 }
 
 .true {
-    color: darkblue;
+    background-color: lightgray;
 }
 
 .clicked {

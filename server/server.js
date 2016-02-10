@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
-//app.use('/setlist', shaker);
+app.use('/getset', shaker);
 
 passport.serializeUser(function(user, done){
     //console.log('serializeUser', user);

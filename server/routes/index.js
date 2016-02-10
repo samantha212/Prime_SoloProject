@@ -284,54 +284,6 @@ router.post('/activate', function(request, response){
 
 });
 
-router.post('/getset', function(request, response) {
-    console.log('/getset get route hit');
-
-    var userActiveSongs = [];
-
-    console.log(request.body);
-
-    pg.connect(connectionString, function (err, client, done) {
-
-        var activeStandardsQuery = client.query("SELECT standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo FROM standard_library \
-        INNER JOIN user_standard_preferences\
-        ON user_standard_preferences.song_id = standard_library.song_id\
-        WHERE " + request.user.username + "=TRUE;");
-
-        var getActiveCustoms = function(){
-            var queryActiveCustoms = client.query("SELECT title, artist, key, tempo FROM user_custom_pref\
-            WHERE (user_id = '" + request.user.user_id + "' AND include = TRUE);");
-
-            console.log("active customs function hit");
-            queryActiveCustoms.on('row', function (row) {
-                userActiveSongs.push(row);
-            });
-
-            queryActiveCustoms.on('end', function(){
-                client.end();
-                return response.send("Successful collection of active songs!");
-            });
-        };
-
-        activeStandardsQuery.on('row', function (row) {
-            userActiveSongs.push(row);
-        });
-
-        activeStandardsQuery.on('end', function(){
-            getActiveCustoms();
-            //client.end();
-            //console.log(userActiveSongs);
-        });
-
-        if (err) {
-            console.log('Error', err);
-            return response.send('Error', err);
-        }
-    });
-
-    pg.end();
-
-});
 
 
 router.post('/', passport.authenticate('local', {
