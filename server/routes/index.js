@@ -193,7 +193,7 @@ router.post('/addsong', function(request, response){
         pg.connect(connectionString, function(err, client, done){
 
 
-            var addSongToCustom = client.query("INSERT INTO user_custom_pref (title, artist, song_key, tempo, user_id)\
+            var addSongToCustom = client.query("INSERT INTO user_custom_pref (title, artist, key, tempo, user_id)\
             VALUES ($1, $2, $3, $4, $5);", [songInfo.title, songInfo.artist, songInfo.key, songInfo.tempo, songInfo.userID]);
 
             if (err) {
