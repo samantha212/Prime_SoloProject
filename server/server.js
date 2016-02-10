@@ -8,9 +8,10 @@ var pg = require('pg');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-pg.defaults.poolsize = 30;
+pg.defaults.poolsize = 50;
 
 var index = require('./routes/index');
+var shaker = require('./routes/shaker');
 
 var localStrategy = require('passport-local').Strategy;
 
@@ -41,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
+//app.use('/setlist', shaker);
 
 passport.serializeUser(function(user, done){
     //console.log('serializeUser', user);
@@ -87,7 +89,6 @@ passport.use('local', new localStrategy({
         });
     });
 }));
-
 
 //[][][][][][][][][][][][][][][][][][][][][][][][]
 //            SERVER SET UP

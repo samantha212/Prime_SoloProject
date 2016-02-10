@@ -18,6 +18,10 @@ mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, 
             templateUrl: 'views/routes/library_standard.html',
             controller: "StandardLibraryController"
         })
+        .when('/refreshstandardlibrary', {
+            templateUrl: 'views/routes/library_standard.html',
+            controller: "StandardLibraryController"
+        })
         .when('/setlist', {
             templateUrl: 'views/routes/set_list.html',
             controller: "SetListController"
@@ -104,11 +108,13 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
 
 }]);
 
-mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location', function($http, $scope, $location) {
+mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location', '$route', '$routeParams', function($http, $scope, $location, $route, $routeParams) {
 
-    $scope.library = [];
+    $scope.libraryActive = [];
+    $scope.libraryInactive = [];
     $scope.checkbox = {};
     $scope.songStatus = {};
+    //$scope.refresh = $route.reload();
 
     $scope.deactivateSong = function(info) {
         var thisSongId = info.song_id;
@@ -160,7 +166,8 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
 
     };
     $scope.getStandard = function() {
-        getLib().then(populateSongStatus($scope.library));
+        //getLib().then(populateSongStatus($scope.library));
+        getLib();
     };
 
     function getLib(){
@@ -169,17 +176,15 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
             url: '/standard_lib'
         }).then(function successCallback(response){
             console.log(response);
-            //$scope.library = response.data;
-            setLibArray(response);
+            $scope.libraryActive  = response.data.active;
+            $scope.libraryInactive  = response.data.inactive;
+            populateSongStatus(response.data.active);
+            populateSongStatus(response.data.inactive);
         }, function errorCallback(response) {
             console.log('Error', response);
         });
     }
 
-    function setLibArray(response){
-        $scope.library = response.data;
-        populateSongStatus($scope.library);
-    }
     function populateSongStatus(array){
         for (var i=0; i<array.length; i++){
             //var thisId = "array[" + i + "].song_id";
@@ -193,9 +198,25 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
 
 }]);
 
-mainApp.controller('SetListController', function() {
+mainApp.controller('SetListController', ['$scope', '$http', function($scope, $http) {
+    $scope.setInfo = {
+        numSets: '',
+        numSongs: ''
+    }
+    $scope.getSets = function(){
+        console.log($scope.setInfo);
+        $http({
+            method: 'POST',
+            url: '/getset',
+            data: $scope.setInfo
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log('Error', response);
+        });
 
-});
+    };
+}]);
 
 mainApp.controller('SongFailController', function() {
 

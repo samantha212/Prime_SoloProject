@@ -92,7 +92,10 @@ router.get('/standard_lib', function(request, response) {
 
     var thisUser = request.user.username;
 
-    var userStandardLibrary = [];
+    var userStandardLibrary = {
+        active: [],
+        inactive: []
+    };
 
     pg.connect(connectionString, function (err, client, done) {
         //Should probably fix this one, too, but I think it's okay, since the un comes from the session, and it was already validated via registration.
@@ -110,7 +113,11 @@ router.get('/standard_lib', function(request, response) {
         };
 
         getStandardLibrary.on('row', function (row) {
-            userStandardLibrary.push(updateID(row));
+            if (row[thisUser] == true) {
+                userStandardLibrary.active.push(updateID(row));
+            } else {
+                userStandardLibrary.inactive.push(updateID(row));
+            }
         });
 
         getStandardLibrary.on('end', function () {
@@ -124,6 +131,7 @@ router.get('/standard_lib', function(request, response) {
             return response.send('Error', err);
         }
     });
+
     pg.end();
 
 });
@@ -239,6 +247,8 @@ router.post('/deactivate', function(request, response){
 
         });
     });
+    pg.end();
+
 });
 
 router.post('/activate', function(request, response){
@@ -270,16 +280,59 @@ router.post('/activate', function(request, response){
 
         });
     });
+    pg.end();
+
 });
 
+router.post('/getset', function(request, response) {
+    console.log('/getset get route hit');
 
-//router.get('/addsong/success', function(request, response){
-//    response.sendFile(path.join(__dirname, '../public/views/routes/song_success.html'));
-//});
-//
-//router.get('/addsong/error', function(request, response){
-//    response.sendFile(path.join(__dirname, '../public/views/routes/song_fail.html'));
-//});
+    var userActiveSongs = [];
+
+    console.log(request.body);
+
+    pg.connect(connectionString, function (err, client, done) {
+
+        var activeStandardsQuery = client.query("SELECT standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo FROM standard_library \
+        INNER JOIN user_standard_preferences\
+        ON user_standard_preferences.song_id = standard_library.song_id\
+        WHERE " + request.user.username + "=TRUE;");
+
+        var getActiveCustoms = function(){
+            var queryActiveCustoms = client.query("SELECT title, artist, key, tempo FROM user_custom_pref\
+            WHERE (user_id = '" + request.user.user_id + "' AND include = TRUE);");
+
+            console.log("active customs function hit");
+            queryActiveCustoms.on('row', function (row) {
+                userActiveSongs.push(row);
+            });
+
+            queryActiveCustoms.on('end', function(){
+                client.end();
+                return response.send("Successful collection of active songs!");
+            });
+        };
+
+        activeStandardsQuery.on('row', function (row) {
+            userActiveSongs.push(row);
+        });
+
+        activeStandardsQuery.on('end', function(){
+            getActiveCustoms();
+            //client.end();
+            //console.log(userActiveSongs);
+        });
+
+        if (err) {
+            console.log('Error', err);
+            return response.send('Error', err);
+        }
+    });
+
+    pg.end();
+
+});
+
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/home',
