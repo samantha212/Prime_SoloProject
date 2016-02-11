@@ -89,7 +89,9 @@ mainApp.controller('AddSongController', ['$http', '$location', '$scope', functio
 }]);
 
 mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http, $scope) {
-    $scope.customLibrary = [];
+    $scope.customLibraryActive = [];
+    $scope.customLibraryInactive = [];
+    $scope.songStatus = {};
 
     $scope.getCustom = getCustomLib;
 
@@ -100,11 +102,74 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
             url: '/custom_lib'
         }).then(function successCallback(response){
             console.log(response);
-            $scope.customLibrary = response.data;
+            $scope.customLibraryActive = response.data.active;
+            $scope.customLibraryInactive = response.data.inactive;
+            populateSongStatus(response.data.active);
+            populateSongStatus(response.data.inactive);
         }, function errorCallback(response) {
             console.log('Error', response.status);
         });
     }
+
+    function populateSongStatus(array){
+        for (var i=0; i<array.length; i++){
+            var songId = array[i].custom_song_id;
+            $scope.songStatus[songId] = array[i].include;
+        }
+        console.log($scope.songStatus);
+    };
+
+    $scope.deactivateSong = function(info) {
+        var thisSongId = info.custom_song_id;
+        console.log("info", info);
+        console.log("thisSongId", thisSongId);
+        if($scope.songStatus[thisSongId] == true){
+            deactivateOnDB(info);
+            $scope.songStatus[thisSongId] = false;
+        } else {
+            activateOnDB(info);
+            $scope.songStatus[thisSongId] = true;
+        }
+    };
+
+    function deactivateOnDB(info) {
+        console.log("deactivate", info.custom_song_id);
+        $http({
+            method: 'POST',
+            url: '/deactivate_custom',
+            data: info
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    }
+
+    function activateOnDB(info) {
+        console.log("activate_custom", info.custom_song_id);
+        $http({
+            method: 'POST',
+            url: '/activate_custom',
+            data: info
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log('Error', response.status);
+        });
+    };
+
+    $scope.activateSong = function(info){
+        var thisSongId = info.song_id;
+        if($scope.songStatus[thisSongId] == false){
+            activateOnDB(info);
+            $scope.songStatus[thisSongId] = true;
+        } else {
+            $scope.deactivateSong(info);
+            $scope.songStatus[thisSongId] = false;
+        }
+    };
+
+
 
 }]);
 
@@ -112,7 +177,7 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
 
     $scope.libraryActive = [];
     $scope.libraryInactive = [];
-    $scope.checkbox = {};
+    //$scope.checkbox = {};
     $scope.songStatus = {};
     //$scope.refresh = $route.reload();
 
@@ -163,10 +228,9 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
         }, function errorCallback(response) {
             console.log('Error', response.status);
         });
-
     };
+
     $scope.getStandard = function() {
-        //getLib().then(populateSongStatus($scope.library));
         getLib();
     };
 

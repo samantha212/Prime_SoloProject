@@ -7,8 +7,25 @@
     <p>The Song Shaker App allows you to add songs to your custom song library via the <a href="/addsong">Add Song</a> page.</p>
     <p>Your current custom library is displayed below.</p>
     <p>If you do not want a song to be included in your set lists, please click its corresponding "inactivate" checkbox to the left of the song details.</p>
-    <p>You may reactivate the song by unchecking that box.</p>
+    <p>You may reactivatethe song by unchecking that box.</p>
 
+    <h2>Active Songs</h2>
+    <div ng-repeat="song in customLibraryActive">
+        <div class="{{song.include}}">
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}</p>
+            <!--<p>song.status = {{song.status}}</p>-->
+            <!--<p ng-hide="song.status">Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>-->
+            <p>Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>
+        </div>
+    </div>
 
-    {{customLibrary}}
+    <h2>Inactive Songs</h2>
+    <div ng-repeat="song in customLibraryInactive">
+        <div class="{{song.include}}" >
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}</p>
+            <!--<p>song.status = {{song.status}}</p>-->
+            <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
+            <!--<p ng-show="song.status">Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>-->
+        </div>
+    </div>
 </div>

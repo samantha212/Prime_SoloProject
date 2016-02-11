@@ -142,7 +142,10 @@ router.get('/custom_lib', function(request, response) {
 
     var thisUser = request.user.user_id;
 
-    var userCustomLibrary = [];
+    var userCustomLibrary = {
+        active: [],
+        inactive: []
+    };
 
     console.log('var thisUser is showing as:', thisUser);
 
@@ -153,8 +156,12 @@ router.get('/custom_lib', function(request, response) {
             ORDER BY user_custom_pref.artist;');
 
         getCustomLibrary.on('row', function (row) {
-            //console.log("row is firing");
-            userCustomLibrary.push(row);
+            //userCustomLibrary.push(row);
+            if (row.include == true) {
+                userCustomLibrary.active.push(row);
+            } else {
+                userCustomLibrary.inactive.push(row);
+            }
         });
 
         getCustomLibrary.on('end', function () {
@@ -251,6 +258,39 @@ router.post('/deactivate', function(request, response){
 
 });
 
+router.post('/deactivate_custom', function(request, response){
+    console.log(request.body);
+    var songId = request.body.custom_song_id;
+
+    pg.connect(connectionString, function(err, client, done) {
+        var deactivateSong = client.query("UPDATE user_custom_pref\
+        SET include=FALSE\
+        WHERE custom_song_id= $1;", [songId]);
+
+        if (err) {
+            console.log('Error', err);
+            client.end();
+            return response.send('error');
+        }
+
+        deactivateSong.on('end', function () {
+            if (err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Successfully updated song status to FALSE.');
+                response.sendStatus(200);
+                //console.log(response);
+            }
+            client.end();
+
+
+        });
+    });
+    pg.end();
+
+});
+
 router.post('/activate', function(request, response){
     console.log(request.body);
     var songId = request.body.song_id;
@@ -278,6 +318,37 @@ router.post('/activate', function(request, response){
             client.end();
 
 
+        });
+    });
+    pg.end();
+
+});
+
+router.post('/activate_custom', function(request, response){
+    console.log(request.body);
+    var songId = request.body.custom_song_id;
+    console.log("activate songId", songId);
+    pg.connect(connectionString, function(err, client, done) {
+        var deactivateSong = client.query("UPDATE user_custom_pref\
+        SET include= TRUE\
+        WHERE custom_song_id = $1;", [songId]);
+
+        if (err) {
+            console.log('Error', err);
+            client.end();
+            return response.send('error');
+        }
+
+        deactivateSong.on('end', function () {
+            if (err) {
+                console.log('Error', err);
+                return response.send('Error', err);
+            } else {
+                console.log('Successfully updated song status to TRUE.');
+                response.sendStatus(200);
+                //console.log(response);
+            }
+            client.end();
         });
     });
     pg.end();
