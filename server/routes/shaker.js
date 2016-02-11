@@ -27,7 +27,6 @@ router.post('/', function(request, response) {
             var queryActiveCustoms = client.query("SELECT artist, title, key, tempo FROM user_custom_pref\
             WHERE (user_id = '" + request.user.user_id + "' AND include = TRUE);");
 
-            console.log("active customs function hit");
             queryActiveCustoms.on('row', function (row) {
                 userActiveSongs.push(row);
             });
@@ -72,24 +71,16 @@ function createSets(sets, songs) {
             songs: []
         };
         var songsHolder = [];
-        console.log("we're on set", i);
         while (songsHolder.length < songsNumber) {
-            console.log("We're trying another song!");
             var selectedNumber = randomNumber(0, (userActiveSongs.length - 1));
             var selectedSong = userActiveSongs[selectedNumber];
-            console.log(selectedSong);
-            //if slot is 1, song is category fast, push
             if (songsHolder.length < 1) {
                 if (selectedSong.tempo == "Fast") {
-                    //break out into separate function.
-                    songsHolder.push(selectedSong);
-                    userActiveSongs.splice(selectedNumber, 1);
+                    useSong();
                 }
             } else {
                 var duplicateArtist = false;
-                console.log("checking duplicates");
                 for (var j = 0; j < songsHolder.length; j++) {
-                    console.log("checking", j);
                     if (selectedSong.artist == songsHolder[j].artist) {
                         duplicateArtist = true;
                     }
@@ -101,15 +92,13 @@ function createSets(sets, songs) {
                     var fourthPreviousSongIndex = songsHolder.length - 4;
 
                     if (songsHolder.length < 2) {
-                        useSong();
+                        if (selectedSong.tempo != "Slow") {
+                            useSong();
+                        }
                     } else if (songsHolder.length < 4) {
-                        if (selectedSong.key == songsHolder[previousSongIndex].key && selectedSong.key == songsHolder[secondPreviousSongIndex].key) {
-                            console.log("Can't use song - three of same key in a row.");
-                        } else {
+                        if (selectedSong.key != songsHolder[previousSongIndex].key && selectedSong.key != songsHolder[secondPreviousSongIndex].key) {
                             if (selectedSong.tempo == "Slow") {
-                                console.log("the song tempo is slow");
                                 if (songsHolder[previousSongIndex].tempo == "Slow" && songsHolder[secondPreviousSongIndex].tempo == "Slow" || songsHolder[secondPreviousSongIndex].tempo == "Slow") {
-                                    console.log("too many slows - can't use");
                                 } else {
                                     useSong();
                                 }
@@ -118,42 +107,23 @@ function createSets(sets, songs) {
                             }
                         }
                     } else {
-                        console.log("Route songs.length 4+ hit");
-                        if (selectedSong.key == songsHolder[previousSongIndex].key && selectedSong.key == songsHolder[secondPreviousSongIndex].key) {
-                            console.log("Can't use song - three of same key in a row.");
-                        } else {
-                            console.log("The key is okay, continuing with logic");
+                        if (selectedSong.key != songsHolder[previousSongIndex].key && selectedSong.key != songsHolder[secondPreviousSongIndex].key) {
                             if (songsHolder.length == (songsNumber - 1)) {
-                                console.log("We're on the last song!");
                                 if (selectedSong.tempo == "Fast") {
                                     useSong();
-                                } else {
-                                    console.log("Can't use for last song - too slow");
                                 }
                             } else {
-                                console.log("We are not yet on the last song");
                                 if (selectedSong.tempo == "Slow") {
-                                    console.log("tempo is slow");
-                                    if (songsHolder[previousSongIndex].tempo == "Slow" && songsHolder[secondPreviousSongIndex].tempo == "Slow" || songsHolder[secondPreviousSongIndex].tempo == "Slow" || songsHolder[thirdPreviousSongIndex].tempo == "Slow") {
-                                        console.log("too many slows - can't use");
-                                    } else {
+                                    if (songsHolder[secondPreviousSongIndex].tempo != "Slow" && songsHolder[thirdPreviousSongIndex].tempo != "Slow") {
                                         useSong();
                                     }
                                 } else {
-                                    //useSong();
-                                    console.log("tempo is med or fast");
                                     if (songsHolder.length == (songsNumber - 2)) {
-                                        console.log("we are on the 2nd to last song");
-                                        if (songsHolder[previousSongIndex].tempo != "Slow" && songsHolder[secondPreviousSongIndex].tempo != "Slow" && songsHolder[thirdPreviousSongIndex].tempo != "Slow") {
-                                            console.log("too many fasts");
-                                        } else {
+                                        if (songsHolder[previousSongIndex].tempo == "Slow" || songsHolder[secondPreviousSongIndex].tempo == "Slow" || songsHolder[thirdPreviousSongIndex].tempo == "Slow") {
                                             useSong();
                                         }
                                     } else {
-                                        console.log("we are somewhere in the middle");
-                                        if (songsHolder[previousSongIndex].tempo != "Slow" && songsHolder[secondPreviousSongIndex].tempo != "Slow" && songsHolder[thirdPreviousSongIndex].tempo != "Slow" && songsHolder[fourthPreviousSongIndex].tempo != "Slow") {
-                                            console.log("too many fasts");
-                                        } else {
+                                        if (songsHolder[previousSongIndex].tempo == "Slow" || songsHolder[secondPreviousSongIndex].tempo == "Slow" || songsHolder[thirdPreviousSongIndex].tempo == "Slow" || songsHolder[fourthPreviousSongIndex].tempo == "Slow") {
                                             useSong();
                                         }
                                     }
@@ -166,10 +136,8 @@ function createSets(sets, songs) {
         }
 
     setHolder.songs = songsHolder;
-    console.log("setHolder is set for this set.");
     setList.push(setHolder);
     }
-        console.log(setList);
         return setList;
 //    add a error that returns if there are fewer than 150 songs.  Something to trigger indication on DOM.
     function useSong() {
