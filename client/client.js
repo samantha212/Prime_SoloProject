@@ -203,7 +203,8 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
         numSets: '',
         numSongs: ''
     };
-    $scope.createdSets = {};
+    $scope.createdSets = [];
+    $scope.displaySetNames = [];
     $scope.getSets = function(){
         console.log($scope.setInfo);
         $http({

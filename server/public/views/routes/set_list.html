@@ -28,8 +28,14 @@
         <button ng-click="getSets()">Get Sets</button>
     </div>
 
-    <div>
-        {{createdSets}}
+    <div ng-repeat="set in createdSets">
+        <div>
+            <h3>{{set.name}}</h3>
+            <p ng-repeat="song in set.songs">{{song}}</p>
+        </div>
+        <!--{{createdSets}}-->
     </div>
 
 </div>
+
+
