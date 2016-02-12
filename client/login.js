@@ -4,11 +4,15 @@ app.controller('ButtonController', ['$scope', '$http', '$location', function($sc
 
     $scope.goToRegistration = function () {
         console.log('Registration button clicked');
-        window.location.assign('http://localhost:3000/registration');
+        var currentLocation = location.origin;
+        var newLocation = currentLocation + "/registration";
+        window.location.assign(newLocation);
     };
 
     $scope.goToLogIn = function() {
-        window.location.assign('http://localhost:3000');
+        var currentLocation = location.origin;
+        var newLocation = currentLocation + "/login";
+        window.location.assign(newLocation);
     };
 }]);
 

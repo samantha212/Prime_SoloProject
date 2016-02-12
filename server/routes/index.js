@@ -36,55 +36,60 @@ router.post('/registration', function(request, response, err){
         password: request.body.password
     };
 
-    console.log('Registrant info', regInfo);
+    if(!regInfo.first || !regInfo.last || !regInfo.em || !regInfo.user || !regInfo.password) {
+        response.sendStatus(500);
+    } else {
 
-    //Connection to DB.  Two separate queries 1) add user to users table and
-    // 2) add user to standard preferences table and set all preferences to default as TRUE.
-    // updateStandardPref called within createUser to ensure both are completed.
-    //Double check fail route on this.
-    pg.connect(connectionString, function(err, client, done){
+        console.log('Registrant info', regInfo);
 
-        var createUser = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
+        //Connection to DB.  Two separate queries 1) add user to users table and
+        // 2) add user to standard preferences table and set all preferences to default as TRUE.
+        // updateStandardPref called within createUser to ensure both are completed.
+        //Double check fail route on this.
+        pg.connect(connectionString, function (err, client, done) {
+
+            var createUser = client.query("INSERT INTO users (first_name, last_name, email_address, username, password) \
         VALUES ($1, $2, $3, $4, $5);", [regInfo.first, regInfo.last, regInfo.em, regInfo.user, regInfo.password]);
 
 
-        var usernameHolder;
+            var usernameHolder;
 
-        var checkUsername = function(){
-            var checkUser = client.query("SELECT * FROM users WHERE users.username = '$1';", [regInfo.user]);
+            var checkUsername = function () {
+                var checkUser = client.query("SELECT * FROM users WHERE users.username = '$1';", [regInfo.user]);
 
-            checkUser.on('row', function(row){
-                usernameHolder = row;
-            })
-        };
-        //Should try to reformat this to prevent injection attack.
-        var queryString = "ALTER TABLE user_standard_preferences ADD " + regInfo.user + " boolean DEFAULT TRUE;";
+                checkUser.on('row', function (row) {
+                    usernameHolder = row;
+                })
+            };
+            //Should try to reformat this to prevent injection attack.
+            var queryString = "ALTER TABLE user_standard_preferences ADD " + regInfo.user + " boolean DEFAULT TRUE;";
 
-        var updateStandardPref = function(){
-            //var queryStandardLibrary = client.query("ALTER TABLE user_standard_preferences ADD || quote_ident(regInfo.user) || boolean DEFAULT TRUE;");
-            var queryAddStandardPrefCol = client.query(queryString);
+            var updateStandardPref = function () {
+                //var queryStandardLibrary = client.query("ALTER TABLE user_standard_preferences ADD || quote_ident(regInfo.user) || boolean DEFAULT TRUE;");
+                var queryAddStandardPrefCol = client.query(queryString);
 
-            queryAddStandardPrefCol.on('end', function() {
-                if(err) {
-                    console.log('Error', err);
-                    return response.send('Error', err);
-                } else {
-                    console.log('Posted successfully to database!');
-                    response.sendStatus(200);
-                }
-                client.end();
+                queryAddStandardPrefCol.on('end', function () {
+                    if (err) {
+                        console.log('Error', err);
+                        return response.send('Error', err);
+                    } else {
+                        console.log('Posted successfully to database!');
+                        response.sendStatus(200);
+                    }
+                    client.end();
+                });
+            };
+
+            createUser.on('end', function () {
+                updateStandardPref();
             });
-        };
 
-        createUser.on('end', function(){
-            updateStandardPref();
         });
 
-    });
-
-    pg.end();
-
+        pg.end();
+    }
 });
+
 
 //Success and failure redirects for user registration.
 router.get('/home', loggedIn, function(request, response){
@@ -189,6 +194,9 @@ router.get('/custom_lib', loggedIn, function(request, response) {
 });
 
 router.get('/', function(request, response){
+    response.sendFile(path.join(__dirname, '../public/views/login.html'));
+});
+router.get('/login', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/login.html'));
 });
 

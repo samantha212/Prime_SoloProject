@@ -10,8 +10,18 @@
     <h1>User Registration</h1>
     <p>We are glad you are joining Song Shaker!</p>
     <p>Please complete the registration form below.</p>
+
     <p>Upon successful registration, you will be directed to our login page.</p>
-    <form>
+
+    <div ng-show="failStatus">
+        <h3 ng-show="failStatus">There was an error with your registration.  Please ensure you have completed all fields and try again.</h3>
+    </div>
+
+    <div ng-show="userDuplicate">
+        <h3 ng-show="failStatus">That username is unavailable.  Please try another username.</h3>
+    </div>
+
+    <div>
         <div>
             <label for="firstname">First Name:</label>
             <input type="text" name="firstname" id="firstname" data-ng-model="user.firstname"/>
@@ -35,10 +45,8 @@
         <div>
             <input type="submit" value="Register" ng-click="registerUser()">
         </div>
-    </form>
-
-    <div ng-show="{{failStatus}}">
-        <h3>There was an error with your registration.  Please ensure you have completed all fields and try again.</h3>
     </div>
+
+    <p>If you would like to return to the log in page, please click <a href="/login">here</a>.</p>
 </body>
 </html>

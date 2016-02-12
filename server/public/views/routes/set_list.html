@@ -34,7 +34,10 @@
         <div>
             <h3>{{set.name}}</h3>
             <div ng-repeat="song in set.songs">
-                <p>Artist: {{song.artist}}    |    Title: {{song.title}}    |    Key: {{song.key}}    |    Tempo Category: {{song.tempo}}</p>
+                <h4>{{song.title}}</h4>
+                <ul>
+                    <li>{{song.artist}}    |    Key: {{song.key}}    |    Tempo Category: {{song.tempo}}</li>
+                </ul>
 
             </div>
         </div>
