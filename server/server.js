@@ -11,6 +11,7 @@ var path = require('path');
 pg.defaults.poolsize = 50;
 
 var index = require('./routes/index');
+var registration = require('./routes/registration');
 var shaker = require('./routes/shaker');
 
 var localStrategy = require('passport-local').Strategy;
@@ -41,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
+app.use('/registration', registration);
 app.use('/getset', shaker);
 
 passport.serializeUser(function(user, done){

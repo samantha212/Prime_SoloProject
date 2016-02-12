@@ -17,7 +17,7 @@ registrationApp.controller('registrationController', ['$scope', '$http', '$locat
             data: $scope.user
         }).then(function successCallback(response){
                 console.log('Response', response);
-                var currentLocation = window.location.href;
+                var currentLocation = location.origin;
                 var newLocation = currentLocation + "/login";
                 window.location.assign(newLocation);
         }, function errorCallback(response) {
