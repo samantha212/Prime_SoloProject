@@ -6,13 +6,15 @@
 
     <p>The Song Shaker App allows you to add songs to your custom song library via the <a href="/addsong">Add Song</a> page.</p>
     <p>Your current custom library is displayed below.</p>
-    <p>If you do not want a song to be included in your set lists, please click its corresponding "inactivate" checkbox to the left of the song details.</p>
-    <p>You may reactivatethe song by unchecking that box.</p>
+    <p>You may update your settings using the checkboxes to the left of each song.</p>
+
 
     <h2>Active Songs</h2>
+    <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the left of the song details.</p>
+
     <div ng-repeat="song in customLibraryActive">
         <div class="{{song.include}}">
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}</p>
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}  |  Tempo Category: {{song.tempo}} </p>
             <!--<p>song.status = {{song.status}}</p>-->
             <!--<p ng-hide="song.status">Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>-->
             <p>Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>
@@ -20,9 +22,11 @@
     </div>
 
     <h2>Inactive Songs</h2>
+    <p>If you would like to make an inactive song available for use in your set lists, please click its corresponding "activate" checkbox to the left of the song details.</p>
+
     <div ng-repeat="song in customLibraryInactive">
         <div class="{{song.include}}" >
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}</p>
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}  |  Tempo Category: {{song.tempo}} </p>
             <!--<p>song.status = {{song.status}}</p>-->
             <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
             <!--<p ng-show="song.status">Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>-->
