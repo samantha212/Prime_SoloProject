@@ -138,7 +138,7 @@ function createSets(sets, songs) {
     setHolder.songs = songsHolder;
     setList.push(setHolder);
     }
-        return setList;
+    return setList;
 //    add a error that returns if there are fewer than 150 songs.  Something to trigger indication on DOM.
     function useSong() {
         songsHolder.push(selectedSong);

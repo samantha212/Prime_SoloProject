@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Song Shaker Home Page</title>
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/styles/normalize.css">
-    <!--Return to add a downloaded version instead of CDN.-->
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="/vendor/vendor_styles/normalize.css">
+    <link rel="stylesheet" href="vendor/vendor_styles/pure.css">
     <link rel="stylesheet" href="/assets/styles/stylesheet.css">
 
     <!--SCRIPTS-->
@@ -18,19 +17,47 @@
 
 </head>
 <body ng-controller="MainController">
-    <h1>Song Shaker Home Page</h1>
-    <button><a href="/welcome">Welcome</a></button>
-    <button><a href="/setlist">Set List Generator</a></button>
-    <button><a href="/standardlibrary">Song Library </a></button>
-    <!--<button><a href="/customlibrary">View Custom Library Page</a></button>-->
-    <button><a href="/addsong">Add Song</a></button>
+    <div class="header-div">
+        <button ng-click="logOut()">Log Out</button>
+        <div class="logoholder">
+            <img src="/assets/images/SongShakerLogo.jpg" alt="Song Shaker Logo" class="logo">
+        </div>
+    </div>
 
 
-    <button ng-click="logOut()">Log Out</button>
+        <div>
+            <div class="menu-holder">
+                <div class="pure-menu pure-menu-horizontal custom-menu">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item"><a href="/welcome" class="pure-menu-link custom-menu-link">Welcome</a></li>
+                        <li class="pure-menu-item"><a href="/setlist" class="pure-menu-link custom-menu-link">Set List Generator</a></li>
+                        <!--<li class="pure-menu-item"><a href="/standardlibrary" class="pure-menu-link">Song Library</a></li>-->
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <a href="/standardlibrary" id="menuLink1" class="pure-menu-link custom-menu-link">Song Library</a>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item"><a href="/standardlibrary" class="pure-menu-link custom-menu-link">Song Shaker Standard Library</a></li>
+                                <li class="pure-menu-item"><a href="/customlibrary" class="pure-menu-link custom-menu-link">Your Custom Song Library</a></li>
+                                <!--<li class="pure-menu-item"><a href="#" class="pure-menu-link">Tumblr Blog</a></li>-->
+                            </ul>
+                        <li class="pure-menu-item"><a href="/addsong" class="pure-menu-link custom-menu-link">Add Song</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+
+            <!--<h1>Song Shaker Home Page</h1>-->
+            <!--<button><a href="/welcome">Welcome</a></button>-->
+            <!--<button><a href="/setlist">Set List Generator</a></button>-->
+            <!--<button><a href="/standardlibrary">Song Library </a></button>-->
+            <!--&lt;!&ndash;<button><a href="/customlibrary">View Custom Library Page</a></button>&ndash;&gt;-->
+            <!--<button><a href="/addsong">Add Song</a></button>-->
+
+            <main ng-view>
+            </main>
 
 
-    <main ng-view>
-    </main>
+    </div>
 
 </body>
 </html>

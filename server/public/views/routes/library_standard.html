@@ -1,23 +1,20 @@
-<!--<div ng-controller="StandardLibraryController">-->
 <div ng-controller="StandardLibraryController" ng-init="getStandard()">
     <h1>Standard Song Shaker Library</h1>
-    <button><a href="/standardlibrary">View Standard Library Page</a></button>
-    <button><a href="/customlibrary">View Custom Library Page</a></button>
+    <button><a href="/customlibrary">Go To Custom Library Page</a></button>
     <p>The Song Shaker App comes with a standard library of 200 songs!</p>
     <p>You also have the option to add custom songs via the <a href="/addsong">Add Song</a> page and can view your custom songs in the <a href="/customlibrary">Custom Library</a>.</p>
     <p>Your personalized library settings are shown below, with active standard songs and inactive standard songs listed separately.</p>
     <p>You may update your settings using the checkboxes to the left of each song.</p>
     <br>
-    <button ng-click="refresh()">Refresh Standard Library</a></button>
+    <button ng-click="getStandard()">Refresh Standard Library</a></button>
     <h2>Active Songs</h2>
     <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the left of the song details.</p>
 
     <div ng-repeat="song in libraryActive">
         <div class="{{song.status}}">
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}  |  Tempo Category: {{song.tempo}} </p>
-            <!--<p>song.status = {{song.status}}</p>-->
-            <!--<p ng-hide="song.status">Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>-->
             <p>Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
+            <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}}</p>
         </div>
     </div>
 
@@ -25,11 +22,11 @@
     <p>If you would like to make an inactive song available for use in your set lists, please click its corresponding "activate" checkbox to the left of the song details.</p>
 
     <div ng-repeat="song in libraryInactive">
-        <div class="{{song.status}}" >
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}  |  Key: {{song.key}}  |  Tempo Category: {{song.tempo}}</p>
-            <!--<p>song.status = {{song.status}}</p>-->
+        <div class="{{song.status}}">
             <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
-            <!--<p ng-show="song.status">Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>-->
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
+            <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}}</p>
+
         </div>
     </div>
 

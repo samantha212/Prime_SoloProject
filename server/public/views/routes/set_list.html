@@ -33,7 +33,10 @@
     <div ng-repeat="set in createdSets">
         <div>
             <h3>{{set.name}}</h3>
-            <p ng-repeat="song in set.songs">{{song}}</p>
+            <div ng-repeat="song in set.songs">
+                <p>Artist: {{song.artist}}    |    Title: {{song.title}}    |    Key: {{song.key}}    |    Tempo Category: {{song.tempo}}</p>
+
+            </div>
         </div>
         <!--{{createdSets}}-->
     </div>
