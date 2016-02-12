@@ -49,9 +49,21 @@ mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, 
 }]);
 
 
-mainApp.controller('MainController', function() {
+mainApp.controller('MainController', ['$scope', '$http', function($scope, $http) {
+    $scope.logOut = out;
 
-});
+    function out() {
+        console.log("log out clicked");
+        $http({
+            url: '/logout',
+            method: 'GET'
+        }).then(function successCallback(response){
+            window.location.assign('http://localhost:3000');
+        });
+
+    }
+
+}]);
 
 mainApp.controller('WelcomeController', function() {
 

@@ -11,6 +11,15 @@ var connectionString = 'postgres://localhost:5432/song_shaker';
 
 pg.defaults.poolsize = 30;
 
+//Find some way to store this.
+function loggedIn(request, response, next) {
+    if (request.user) {
+        next();
+    } else {
+        response.sendFile(path.join(__dirname, '../public/views/login.html'));
+    }
+}
+
 router.get('/registration', function(request, response){
     console.log(request);
     response.sendFile(path.join(__dirname, '../public/views/registration.html'));
@@ -78,7 +87,7 @@ router.post('/registration', function(request, response, err){
 });
 
 //Success and failure redirects for user registration.
-router.get('/home', function(request, response){
+router.get('/home', loggedIn, function(request, response){
     console.log('Successful login for', request.user);
     response.sendFile(path.join(__dirname, '../public/views/home.html'));
 });
@@ -87,7 +96,7 @@ router.get('/fail', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/fail.html'));
 });
 
-router.get('/standard_lib', function(request, response) {
+router.get('/standard_lib', loggedIn, function(request, response) {
     console.log('/standard_lib get route hit');
 
     var thisUser = request.user.username;
@@ -136,7 +145,7 @@ router.get('/standard_lib', function(request, response) {
 
 });
 
-router.get('/custom_lib', function(request, response) {
+router.get('/custom_lib', loggedIn, function(request, response) {
     console.log('/custom_lib get route hit');
     console.log(request.user);
 
@@ -183,7 +192,7 @@ router.get('/', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/login.html'));
 });
 
-router.post('/addsong', function(request, response){
+router.post('/addsong', loggedIn, function(request, response){
     console.log(request);
 
     var songInfo = {
@@ -225,7 +234,7 @@ router.post('/addsong', function(request, response){
 
 });
 
-router.post('/deactivate', function(request, response){
+router.post('/deactivate', loggedIn, function(request, response){
     console.log(request.body);
     var songId = request.body.song_id;
 
@@ -258,7 +267,7 @@ router.post('/deactivate', function(request, response){
 
 });
 
-router.post('/deactivate_custom', function(request, response){
+router.post('/deactivate_custom', loggedIn, function(request, response){
     console.log(request.body);
     var songId = request.body.custom_song_id;
 
@@ -291,7 +300,7 @@ router.post('/deactivate_custom', function(request, response){
 
 });
 
-router.post('/activate', function(request, response){
+router.post('/activate', loggedIn, function(request, response){
     console.log(request.body);
     var songId = request.body.song_id;
 
@@ -324,7 +333,7 @@ router.post('/activate', function(request, response){
 
 });
 
-router.post('/activate_custom', function(request, response){
+router.post('/activate_custom', loggedIn, function(request, response){
     console.log(request.body);
     var songId = request.body.custom_song_id;
     console.log("activate songId", songId);
@@ -355,7 +364,12 @@ router.post('/activate_custom', function(request, response){
 
 });
 
+router.get('/logout', function(request, response){
+    request.logout();
+    console.log("logged out", request.user);
 
+    response.sendFile(path.join(__dirname, '../public/views/login.html'));
+});
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/home',
