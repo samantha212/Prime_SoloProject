@@ -13,6 +13,8 @@ pg.defaults.poolsize = 50;
 var index = require('./routes/index');
 var registration = require('./routes/registration');
 var shaker = require('./routes/shaker');
+var standardLib = require('./routes/standard_lib');
+var customLib = require('./routes/custom_lib');
 
 var localStrategy = require('passport-local').Strategy;
 
@@ -41,9 +43,22 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', index);
 app.use('/registration', registration);
 app.use('/getset', shaker);
+app.use('/standard_lib', standardLib);
+app.use('/#/standard_lib', standardLib);
+app.use('/custom_lib', customLib);
+app.use('/', index);
+
+app.get('/*', function(request, response, next){
+    var url = request.originalUrl;
+    if (url.split('.').length > 1){
+        next();
+    } else {
+        response.redirect('/#' + url);
+    }
+    });
+
 
 passport.serializeUser(function(user, done){
     //console.log('serializeUser', user);

@@ -13,6 +13,7 @@ pg.defaults.poolsize = 30;
 
 //Find some way to store this.
 function loggedIn(request, response, next) {
+    console.log("Logged in function being checked.");
     if (request.user) {
         next();
     } else {
@@ -34,101 +35,6 @@ router.get('/fail', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/fail.html'));
 });
 
-router.get('/standard_lib', loggedIn, function(request, response) {
-    console.log('/standard_lib get route hit');
-
-    var thisUser = request.user.username;
-
-    var userStandardLibrary = {
-        active: [],
-        inactive: []
-    };
-
-    pg.connect(connectionString, function (err, client, done) {
-        //Should probably fix this one, too, but I think it's okay, since the un comes from the session, and it was already validated via registration.
-        var getStandardLibrary = client.query("SELECT standard_library.song_id, standard_library.artist, standard_library.title, standard_library.key, standard_library.tempo, user_standard_preferences." + thisUser + " \
-        FROM standard_library \
-        INNER JOIN user_standard_preferences\
-        ON user_standard_preferences.song_id = standard_library.song_id\
-        ORDER BY standard_library.artist;");
-
-        var updateID = function(object){
-            var songRow = object;
-            //var copyFromKey = "object." + thisUser;
-            songRow.status = object[thisUser];
-            return songRow;
-        };
-
-        getStandardLibrary.on('row', function (row) {
-            if (row[thisUser] == true) {
-                userStandardLibrary.active.push(updateID(row));
-            } else {
-                userStandardLibrary.inactive.push(updateID(row));
-            }
-        });
-
-        getStandardLibrary.on('end', function () {
-            client.end();
-            //console.log(userStandardLibrary);
-            return response.json(userStandardLibrary);
-        });
-
-        if (err) {
-            console.log('Error', err);
-            return response.send('Error', err);
-        }
-    });
-
-    pg.end();
-
-});
-
-router.get('/custom_lib', loggedIn, function(request, response) {
-    console.log('/custom_lib get route hit');
-    console.log(request.user);
-
-    var thisUser = request.user.user_id;
-
-    var userCustomLibrary = {
-        active: [],
-        inactive: []
-    };
-
-    console.log('var thisUser is showing as:', thisUser);
-
-    pg.connect(connectionString, function (err, client, done) {
-
-        var getCustomLibrary = client.query('SELECT * FROM user_custom_pref\
-            WHERE user_id = \'' + thisUser + '\'\
-            ORDER BY user_custom_pref.artist;');
-
-        getCustomLibrary.on('row', function (row) {
-            //userCustomLibrary.push(row);
-            if (row.include == true) {
-                userCustomLibrary.active.push(row);
-            } else {
-                userCustomLibrary.inactive.push(row);
-            }
-        });
-
-        getCustomLibrary.on('end', function () {
-            //console.log("end is fired");
-            client.end();
-            return response.json(userCustomLibrary);
-        });
-
-        if (err) {
-            console.log('Error', err);
-            return response.send('Error', err);
-        }
-    });
-
-    pg.end();
-});
-
-router.get('/', function(request, response){
-    response.sendFile(path.join(__dirname, '../public/views/login.html'));
-});
 router.get('/login', function(request, response){
     response.sendFile(path.join(__dirname, '../public/views/login.html'));
 });
@@ -316,5 +222,11 @@ router.post('/', passport.authenticate('local', {
     successRedirect: '/home',
     failureRedirect: '/fail'
 }));
+
+router.get('/', function(request, response){
+    console.log("/ route being hit");
+    response.sendFile(path.join(__dirname, '../public/views/login.html'));
+});
+
 
 module.exports = router;

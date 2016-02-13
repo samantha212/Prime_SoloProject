@@ -7,7 +7,7 @@
     <p>Your current custom library is displayed below.</p>
     <p>You may update your settings using the checkboxes to the left of each song.</p>
 
-    <button ng-click="getCustom()">Refresh Standard Library</a></button>
+    <button ng-click="getCustom()">Refresh Custom Library</a></button>
 
     <h2>Active Songs</h2>
     <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the left of the song details.</p>
@@ -25,7 +25,7 @@
 
     <div ng-repeat="song in customLibraryInactive">
         <div class="{{song.include}}" >
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
+            <p ng-class="{strike: deleted, bold: songStatus[song.custom_song_id]}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
             <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}} </p>
             <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
         </div>

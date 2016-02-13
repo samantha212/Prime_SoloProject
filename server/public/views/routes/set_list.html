@@ -1,4 +1,4 @@
-<div ng-controller="SetListController">
+<div>
     <h1>Generate Set List</h1>
     <p>You've come to the right place to make your perfect set list!  Simply select the number of sets and the number of songs per set that you would like and click SHAKE IT! to get your set list.</p>
     <p>You can see which songs are available for use in the <a href="/standardlibrary">Song Library</a> and add custom songs via the <a href="/addsong">Add Song</a> page.</p>
@@ -27,12 +27,11 @@
         </select>
     </div>
     <div>
-        <button ng-click="getSets()">Get Sets</button>
+        <button ng-click="getSets(setInfo)">Get Sets</button>
     </div>
 
-    <button><a href="/printable_set" target="_blank">Get Printable Version</a></button>
-
-    <div ng-repeat="set in createdSets">
+    <!--<button><a href="/printable_set" target="_blank">Get Printable Version</a></button>-->
+    <div ng-repeat="set in setResults">
         <div>
             <h3>{{set.name}}</h3>
             <div ng-repeat="song in set.songs">

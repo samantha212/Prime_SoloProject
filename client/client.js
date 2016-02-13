@@ -39,28 +39,25 @@ mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, 
             controller: "WelcomeController"
         });
 
-
-
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
     });
-
 }]);
 
 
 mainApp.controller('MainController', ['$scope', '$http', function($scope, $http) {
-    $scope.logOut = out;
+    $scope.logOut = logUserOut;
 
-    function out() {
+    function logUserOut() {
         console.log("log out clicked");
         $http({
             url: '/logout',
             method: 'GET'
         }).then(function successCallback(response){
+            //COME BACK TO FIX THIS.
             window.location.assign('http://localhost:3000');
         });
-
     }
 
 }]);
@@ -72,20 +69,14 @@ mainApp.controller('WelcomeController', function() {
 mainApp.controller('AddSongController', ['$http', '$location', '$scope', function($http, $location, $scope) {
     $scope.song = {};
     $scope.addSong = sendSong;
-    //Do I need to send "/songsuccess", "addsong/songsuccess", or "http://localhost:3000/songsuccess" to go in the $location.path()??
-    var currentLocation = $location.absUrl();
-    var newLocation = currentLocation + ('/songsuccess');
-    console.log(currentLocation);
-    console.log(newLocation);
+
     function sendSong() {
         $http({
             url: '/addsong',
             method: 'POST',
             data: $scope.song
         }).then(function successCallback(response) {
-            //$location.path(newLocation);
             console.log(response);
-            //$location.path(newLocation);
             $location.path('/songsuccess');
         }, function errorCallback(response) {
             console.log('Error', response.status);
@@ -93,11 +84,6 @@ mainApp.controller('AddSongController', ['$http', '$location', '$scope', functio
 
         });
     }
-
-    //$locationProvider.html5Mode({
-    //    enabled: true,
-    //    requireBase: false
-    //});
 }]);
 
 mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http, $scope) {
@@ -173,11 +159,15 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
     $scope.activateSong = function(info){
         var thisSongId = info.song_id;
         if($scope.songStatus[thisSongId] == false){
+            console.log("activate");
             activateOnDB(info);
             $scope.songStatus[thisSongId] = true;
+            console.log($scope.songStatus);
         } else {
-            $scope.deactivateSong(info);
+            console.log("deactivate");
+            deactivateOnDB(info);
             $scope.songStatus[thisSongId] = false;
+            console.log($scope.songStatus);
         }
     };
 
@@ -279,22 +269,25 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
         numSets: '',
         numSongs: ''
     };
-    $scope.createdSets = [];
-    $scope.displaySetNames = [];
-    $scope.getSets = function(){
-        console.log($scope.setInfo);
+
+    $scope.setResults = [];
+    $scope.getSets = getLists;
+
+    function getLists(setInfo) {
+        console.log(setInfo);
         $http({
             method: 'POST',
             url: '/getset',
-            data: $scope.setInfo
+            data: setInfo
         }).then(function successCallback(response){
             console.log(response);
-            $scope.createdSets = response.data;
+            $scope.setResults = response.data;
         }, function errorCallback(response) {
             console.log('Error', response);
         });
+    }
 
-    };
+
 }]);
 
 mainApp.controller('SongFailController', function() {
