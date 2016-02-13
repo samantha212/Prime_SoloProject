@@ -81,16 +81,54 @@ body {
     font-weight: bold;
     font-size: 25px;
 }
-.false {
-    background-color: slategray;
+
+.active-standard, .inactive-standard {
+    width: 800px;
+    height: 550px;
+    border: 1px solid black;
+    margin: 20px auto;
+    background-color: darkgray;
+    overflow: scroll;
 }
 
+.library-text {
+    padding: 10px 25px;
+    width: 900px;
+    margin: auto;
+}
+.library-section {
+    font-size: 30px;
+    font-weight: 600;
+    background-color: black;
+    color: white;
+    text-align: center;
+    margin: 40px 0 15px 0;
+}
+
+.false {
+    background-color: darkgray;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+    padding: 0 15px;
+}
+
+.pure-g, .pure-g .pure-u-3-8, .pure-g .pure-u-4-8, .pure-g .pure-u-1-8, .pure-g .pure-u-1 {
+    margin: 5px;
+    font-family: 'Hind', Arial, sans-serif;
+}
 .true {
     background-color: lightgray;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+    padding: 0 15px;
 }
 
 .strike {
     text-decoration: line-through;
+}
+
+.activated {
+    color: #f4f4f4;
 }
 .bold {
     font-weight: bold;

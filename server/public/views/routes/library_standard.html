@@ -7,26 +7,48 @@
     <p>You may update your settings using the checkboxes to the left of each song.</p>
     <br>
     <button ng-click="getStandard()">Refresh Standard Library</a></button>
-    <h2>Active Songs</h2>
-    <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the left of the song details.</p>
 
-    <div ng-repeat="song in libraryActive">
-        <div class="{{song.status}}">
-            <p>Deactivate<input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"></p>
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
-            <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}}</p>
+
+    <h3 class="library-section">Active Songs</h3>
+    <div class="library-text">
+        <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the right of the song details.</p>
+    </div>
+
+    <div class="active-standard">
+        <div ng-repeat="song in libraryActive">
+            <div class="{{song.status}}">
+                <div class="pure-g">
+                    <p class="pure-u-3-8 bold" ng-class="{strike: deleted}">Artist: {{song.artist}}</p>
+                    <p class="pure-u-3-8 bold" ng-class="{strike: deleted}">Title: {{song.title}}</p>
+                    <p class="pure-u-1-8"><input ng-change="deactivateSong(song)" type="checkbox" ng-model="deleted"> Deactivate</p>
+                </div>
+                <div class="pure-g">
+                    <p class="pure-u-3-8" ng-class="{strike: deleted}">Tempo Category: {{song.tempo}}</p>
+                    <p class="pure-u-3-8" ng-class="{strike: deleted}">Key: {{song.key}}</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <h2>Inactive Songs</h2>
-    <p>If you would like to make an inactive song available for use in your set lists, please click its corresponding "activate" checkbox to the left of the song details.</p>
 
-    <div ng-repeat="song in libraryInactive">
-        <div class="{{song.status}}">
-            <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
-            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
-            <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}}</p>
+    <h3 class="library-section">Inactive Songs</h3>
+    <div class="library-text">
+        <p>If you would like to make an inactive song available for use in your set lists, please click its corresponding "activate" checkbox to the right of the song details.</p>
+    </div>
 
+    <div class="inactive-standard">
+        <div ng-repeat="song in libraryInactive">
+            <div class="{{song.status}}">
+                <div class="pure-g">
+                    <p class="pure-u-3-8 bold" ng-class="{activated: important}">Artist: {{song.artist}}</p>
+                    <p class="pure-u-3-8 bold" ng-class="{activated: important}">Title: {{song.title}}</p>
+                    <p class="pure-u-1-8"><input ng-change="activateSong(song)" type="checkbox" ng-model="important">Activate</p>
+                </div>
+                <div class="pure-g">
+                    <p class="pure-u-3-8" ng-class="{activated: important}">Tempo Category: {{song.tempo}}</p>
+                    <p class="pure-u-3-8" ng-class="{activated: important}">Key: {{song.key}}</p>
+                </div>
+            </div>
         </div>
     </div>
 
