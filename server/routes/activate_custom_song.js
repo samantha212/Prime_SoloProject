@@ -12,9 +12,9 @@ var connectionString = 'postgres://localhost:5432/song_shaker';
 pg.defaults.poolsize = 30;
 
 router.post('/', loggedIn, function(request, response){
-    console.log(request.body);
+
     var songId = request.body.custom_song_id;
-    console.log("activate songId", songId);
+
     pg.connect(connectionString, function(err, client, done) {
         var deactivateSong = client.query("UPDATE user_custom_pref\
         SET include= TRUE\
@@ -31,9 +31,7 @@ router.post('/', loggedIn, function(request, response){
                 console.log('Error', err);
                 return response.send('Error', err);
             } else {
-                console.log('Successfully updated song status to TRUE.');
                 response.sendStatus(200);
-                //console.log(response);
             }
             client.end();
         });

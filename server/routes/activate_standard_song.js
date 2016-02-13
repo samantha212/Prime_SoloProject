@@ -13,7 +13,7 @@ pg.defaults.poolsize = 30;
 
 
 router.post('/', loggedIn, function(request, response){
-    console.log(request.body);
+
     var songId = request.body.song_id;
 
     pg.connect(connectionString, function(err, client, done) {
@@ -22,19 +22,15 @@ router.post('/', loggedIn, function(request, response){
         WHERE song_id = $1;", [songId]);
 
         if (err) {
-            console.log('Error', err);
             client.end();
             return response.send('error');
         }
 
         deactivateSong.on('end', function () {
             if (err) {
-                console.log('Error', err);
                 return response.send('Error', err);
             } else {
-                console.log('Successfully updated song status to TRUE.');
                 response.sendStatus(200);
-                //console.log(response);
             }
             client.end();
 

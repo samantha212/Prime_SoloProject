@@ -144,34 +144,23 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
     }
 
     function activateOnDB(info) {
-        console.log("activate_custom", info.custom_song_id);
         $http({
             method: 'POST',
             url: '/activate_custom',
             data: info
-        }).then(function successCallback(response){
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log('Error', response.status);
-        });
+        })
     };
 
     $scope.activateSong = function(info){
-        var thisSongId = info.song_id;
+        var thisSongId = info.custom_song_id;
         if($scope.songStatus[thisSongId] == false){
-            console.log("activate");
             activateOnDB(info);
             $scope.songStatus[thisSongId] = true;
-            console.log($scope.songStatus);
         } else {
-            console.log("deactivate");
             deactivateOnDB(info);
             $scope.songStatus[thisSongId] = false;
-            console.log($scope.songStatus);
         }
     };
-
-
 
 }]);
 
@@ -286,7 +275,6 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
             console.log('Error', response);
         });
     }
-
 
 }]);
 

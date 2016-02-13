@@ -13,7 +13,6 @@ pg.defaults.poolsize = 30;
 
 
 router.post('/', loggedIn, function(request, response){
-    console.log(request.body);
     var songId = request.body.custom_song_id;
 
     pg.connect(connectionString, function(err, client, done) {
@@ -32,9 +31,7 @@ router.post('/', loggedIn, function(request, response){
                 console.log('Error', err);
                 return response.send('Error', err);
             } else {
-                console.log('Successfully updated song status to FALSE.');
                 response.sendStatus(200);
-                //console.log(response);
             }
             client.end();
 
@@ -54,4 +51,3 @@ function loggedIn(request, response, next) {
 }
 
 module.exports = router;
-
