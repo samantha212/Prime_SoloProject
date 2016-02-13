@@ -60,13 +60,8 @@ app.use('/deactivate_custom', deactivateCustom);
 app.use('/activate_custom', activateCustom);
 app.use('/', index);
 
-app.get('/*', function(request, response, next){
-    var url = request.originalUrl;
-    if (url.split('.').length > 1){
-        next();
-    } else {
-        response.redirect('/#' + url);
-    }
+app.get('/*', function(request, response){
+        response.redirect('/home');
     });
 
 
