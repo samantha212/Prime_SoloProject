@@ -16,6 +16,7 @@ var shaker = require('./routes/shaker');
 var standardLib = require('./routes/standard_lib');
 var customLib = require('./routes/custom_lib');
 var addsong = require('./routes/addsong');
+var deactivateStandard = require('./routes/deactivate_standard_song');
 
 var localStrategy = require('passport-local').Strategy;
 
@@ -50,6 +51,7 @@ app.use('/standard_lib', standardLib);
 app.use('/#/standard_lib', standardLib);
 app.use('/custom_lib', customLib);
 app.use('/addsong', addsong);
+app.use('/deactivate', deactivateStandard);
 app.use('/', index);
 
 app.get('/*', function(request, response, next){
