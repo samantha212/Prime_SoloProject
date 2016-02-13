@@ -1,5 +1,6 @@
 body {
     background-color: black;
+    font-family: 'Hind', Arial, sans-serif;
 }
 
 .main-content {
@@ -7,8 +8,77 @@ body {
     margin: auto;
     padding: 15px;
     width: 1070px;
+    min-height: 700px;
 }
 
+.view-content {
+    padding: 25px;
+}
+
+.view-content a:link {
+    color: #EC9C1F;
+}
+
+.view-content a:visited {
+    color: #EC9C1F;
+}
+
+.view-content a:hover {
+    color: #C68218;
+}
+
+.set-calculator {
+    background: black;
+    color: white;
+    border-radius: 5px;
+    width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.set-calculator button {
+    margin-bottom: 40px;
+}
+
+.set-calc-logo {
+    background-color: black;
+    margin: 20px;
+}
+.calc-content {
+    padding: 10px 0;
+    width: 300px;
+    margin: auto;
+    text-align: center;
+}
+
+.set-name {
+    font-size: 30px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    margin: 40px 0 15px 0;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0 0 5px 30px;
+    display: inline;
+}
+
+.song {
+    margin: 0 0 5px 60px;
+    font-size: 18px;
+}
+
+.song-part {
+    margin: 0 15px;
+}
+
+.key{
+    font-weight: bold;
+    font-size: 16px;
+}
 .false {
     background-color: slategray;
 }
@@ -37,7 +107,7 @@ body {
     margin: auto;
 }
 
-.logo {
+.logo .set-calculator {
     border: 1px solid black;
     box-shadow: 7px 7px 5px black;
 }

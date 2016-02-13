@@ -1,45 +1,46 @@
-<div>
+<div class="view-content">
     <h1>Generate Set List</h1>
     <p>You've come to the right place to make your perfect set list!  Simply select the number of sets and the number of songs per set that you would like and click SHAKE IT! to get your set list.</p>
     <p>You can see which songs are available for use in the <a href="/standardlibrary">Song Library</a> and add custom songs via the <a href="/addsong">Add Song</a> page.</p>
 
-    <div>
-        <label>Number of Sets</label>
-        <select data-ng-model="setInfo.numSets">
-            <option value=1>1</option>
-            <option value=2>2</option>
-            <option value=3>3</option>
-            <option value=4>4</option>
-        </select>
+    <div class="set-calculator">
+        <div class="set-calc-logo calc-content">
+            <img src="/assets/images/SongShakerLogoSmall.jpg" alt="Song Shaker Logo" class="logo">
+        </div>
+        <div class="calc-content">
+            <label>Number of Sets</label>
+            <select data-ng-model="setInfo.numSets">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+            </select>
+        </div>
+        <div class="calc-content">
+            <label>Number of Songs Per Set</label>
+            <select data-ng-model="setInfo.numSongs">
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+                <option value=11>11</option>
+                <option value=12>12</option>
+                <option value=13>13</option>
+                <option value=14>14</option>
+                <option value=15>15</option>
+                <option value=16>16</option>
+            </select>
+        </div>
+        <div class="calc-content">
+            <button ng-click="getSets(setInfo)" class="pure-button">SHAKE IT!</button>
+        </div>
     </div>
-    <div>
-        <label>Number of Songs Per Set</label>
-        <select data-ng-model="setInfo.numSongs">
-            <option value=8>8</option>
-            <option value=9>9</option>
-            <option value=10>10</option>
-            <option value=11>11</option>
-            <option value=12>12</option>
-            <option value=13>13</option>
-            <option value=14>14</option>
-            <option value=15>15</option>
-            <option value=16>16</option>
-        </select>
-    </div>
-    <div>
-        <button ng-click="getSets(setInfo)">Get Sets</button>
-    </div>
-
     <!--<button><a href="/printable_set" target="_blank">Get Printable Version</a></button>-->
     <div ng-repeat="set in setResults">
         <div>
-            <h3>{{set.name}}</h3>
+            <h3 class="set-name">{{set.name}}</h3>
             <div ng-repeat="song in set.songs">
-                <h4>{{song.title}}</h4>
-                <ul>
-                    <li>{{song.artist}}    |    Key: {{song.key}}    |    Tempo Category: {{song.tempo}}</li>
-                </ul>
-
+                <p class="title">{{song.title}}</p>
+                <p class="song"><span class="song-part">{{song.artist}}</span> | <span class="song-part">Tempo Category: {{song.tempo}} </span> | <span class="song-part">Key: <span class="key">{{song.key}}</span></span></p>
             </div>
         </div>
     </div>
