@@ -10,7 +10,7 @@ var userActiveSongs = [];
 pg.defaults.poolsize = 30;
 
 
-router.post('/', function(request, response) {
+router.post('/', loggedIn, function(request, response) {
     console.log('/getset get route hit');
 
     //var userActiveSongs = [];
@@ -147,6 +147,14 @@ function createSets(sets, songs) {
     }
     function randomNumber(min, max) {
         return Math.floor(Math.random() * (1 + max - min) + min);
+    }
+}
+
+function loggedIn(request, response, next) {
+    if (request.user) {
+        next();
+    } else {
+        response.sendFile(path.join(__dirname, '../public/views/login.html'));
     }
 }
 
