@@ -15,6 +15,7 @@ var registration = require('./routes/registration');
 var shaker = require('./routes/shaker');
 var standardLib = require('./routes/standard_lib');
 var customLib = require('./routes/custom_lib');
+var addsong = require('./routes/addsong');
 
 var localStrategy = require('passport-local').Strategy;
 
@@ -48,6 +49,7 @@ app.use('/getset', shaker);
 app.use('/standard_lib', standardLib);
 app.use('/#/standard_lib', standardLib);
 app.use('/custom_lib', customLib);
+app.use('/addsong', addsong);
 app.use('/', index);
 
 app.get('/*', function(request, response, next){
