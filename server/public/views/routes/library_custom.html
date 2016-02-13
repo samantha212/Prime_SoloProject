@@ -25,7 +25,7 @@
 
     <div ng-repeat="song in customLibraryInactive">
         <div class="{{song.include}}" >
-            <p ng-class="{strike: deleted, bold: songStatus[song.custom_song_id]}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
+            <p ng-class="{strike: deleted, bold: important}">Artist: {{song.artist}}  |   Title: {{song.title}}</p>
             <p>Key: {{song.key}}  |  Tempo Category: {{song.tempo}} </p>
             <p>Activate<input ng-change="activateSong(song)" type="checkbox" ng-model="important"></p>
         </div>

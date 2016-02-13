@@ -19,6 +19,7 @@ var addsong = require('./routes/addsong');
 var deactivateStandard = require('./routes/deactivate_standard_song');
 var activateStandard = require('./routes/activate_standard_song');
 var deactivateCustom = require('./routes/deactivate_custom_song');
+var activateCustom = require('./routes/activate_custom_song');
 
 var localStrategy = require('passport-local').Strategy;
 
@@ -56,6 +57,7 @@ app.use('/addsong', addsong);
 app.use('/deactivate', deactivateStandard);
 app.use('/activate', activateStandard);
 app.use('/deactivate_custom', deactivateCustom);
+app.use('/activate_custom', activateCustom);
 app.use('/', index);
 
 app.get('/*', function(request, response, next){
