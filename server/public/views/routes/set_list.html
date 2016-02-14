@@ -1,6 +1,6 @@
 <div class="view-content">
     <h1>Generate Set List</h1>
-    <p>You've come to the right place to make your perfect set list!  Simply select the number of sets and the number of songs per set that you would like and click SHAKE IT! to get your set list.</p>
+    <p>You've come to the right place to make your perfect set list!  Simply select the number of sets and the number of songs per set that you would like and click <span class="bold">SHAKE IT!</span> to get your set list.</p>
     <p>You can see which songs are available for use in the <a href="/standardlibrary">Song Library</a> and add custom songs via the <a href="/addsong">Add Song</a> page.</p>
 
     <div class="set-calculator">
@@ -37,9 +37,9 @@
     <div ng-repeat="set in setResults">
         <div>
             <h3 class="set-name">{{set.name}}</h3>
-            <div ng-repeat="song in set.songs">
+            <div ng-repeat="song in set.songs" class="song">
                 <p class="title">{{song.title}}</p>
-                <p class="song"><span class="song-part">{{song.artist}}</span> | <span class="song-part">Tempo Category: {{song.tempo}} </span> | <span class="song-part">Key: <span class="key">{{song.key}}</span></span></p>
+                <p class="song-details"><span class="song-part">{{song.artist}}</span> | <span class="song-part">Tempo Category: {{song.tempo}} </span> | <span class="song-part">Key: <span class="key">{{song.key}}</span></span></p>
             </div>
         </div>
     </div>

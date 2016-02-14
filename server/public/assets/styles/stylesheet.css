@@ -3,6 +3,11 @@ body {
     font-family: 'Hind', Arial, sans-serif;
 }
 
+h4 {
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
 .main-content {
     background-color: #FFFFFF;
     border-top: solid 7px #637E13;
@@ -26,6 +31,10 @@ body {
 
 .view-content a:hover {
     color: #C68218;
+}
+
+.tour {
+    margin-top: 0px;
 }
 
 .set-calculator {
@@ -69,9 +78,14 @@ body {
     display: inline;
 }
 
-.song {
+.song-details {
     margin: 0 0 5px 60px;
     font-size: 18px;
+}
+
+.song{
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
 }
 
 .song-part {
@@ -199,6 +213,19 @@ body {
 
 .custom-menu-link:hover {
     background-color: #637e13;
+}
+
+.pure-menu-active > .pure-menu-link,
+.pure-menu-link:hover,
+.pure-menu-link:focus{
+    background-color: #637e13;
+
+}
+
+.pure-menu-selected .pure-menu-link,
+.pure-menu-selected .pure-menu-link:visited{
+    background-color: #637e13;
+
 }
 
 .pure-control-group {
