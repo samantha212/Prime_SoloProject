@@ -217,6 +217,17 @@ body {
     margin: auto;
 }
 
+.login-button {
+    margin-left: 205px;
+}
+.faux-menu {
+    height: 42px;
+    background-color: black;
+    border-bottom: solid 10px #2b400b;
+    margin: auto;
+    width: 1100px;
+}
+
 .footer{
     height: 20px;
     width: 1070px;

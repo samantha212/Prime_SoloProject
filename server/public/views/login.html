@@ -3,32 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Song_Shaker</title>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/vendor/vendor_styles/normalize.css">
+    <link rel="stylesheet" href="vendor/vendor_styles/pure.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Hind:400,500,700,600' type='text/css'>
+    <link rel="stylesheet" href="/assets/styles/stylesheet.css">
+
+    <!--SCRIPTS-->
     <script src="/vendor/angular/angular.min.js"></script>
     <script src="/assets/scripts/client/login.js"></script>
 
 </head>
 <body ng-controller="ButtonController">
-    <H1>Hello World!  This is song shaker.</H1>
-    <form action="/" method="post">
-        <div>
+
+<div class="header-div">
+    <div class="logoholder">
+        <img src="/assets/images/SongShakerLogo.jpg" alt="Song Shaker Logo" class="logo">
+    </div>
+</div>
+
+<div class="faux-menu">
+
+</div>
+
+<div class="main-content">
+
+    <H1>Welcome to Song Shaker!  Please log in.</H1>
+    <form action="/" method="post" class="pure-form pure-form-aligned">
+        <div class="pure-control-group">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username"/>
         </div>
-        <div>
+        <div class="pure-control-group">
             <label for="password">Password:</label>
             <input type="text" name="password" id="password"/>
         </div>
         <div>
-            <input type="submit" value="Log In">
+            <input type="submit" id="submit" value="Log In" class="pure-button refresh login-button">
         </div>
     </form>
-
+    <br>
+    <br>
     <div>
-        <p>If you are not a registered Song Shaker user, please click here to register.</p>
-        <button ng-click="goToRegistration()">Register</button>
+        <p>If you are not a registered Song Shaker user, please click here to <button ng-click="goToRegistration()" class="pure-button refresh">Register</button> .</p>
+
     </div>
 
+</div>
+</div>
 
+<div class="footer">
+
+</div>
 
 </body>
 </html>

@@ -3,10 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/vendor/vendor_styles/normalize.css">
+    <link rel="stylesheet" href="vendor/vendor_styles/pure.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Hind:400,500,700,600' type='text/css'>
+    <link rel="stylesheet" href="/assets/styles/stylesheet.css">
+
+    <!--SCRIPTS-->
     <script src="/vendor/angular/angular.min.js"></script>
     <script src="/assets/scripts/client/registration.js"></script>
 </head>
 <body ng-controller="registrationController">
+<div class="header-div">
+    <div class="logoholder">
+        <img src="/assets/images/SongShakerLogo.jpg" alt="Song Shaker Logo" class="logo">
+    </div>
+</div>
+
+<div class="faux-menu">
+
+</div>
+
+<div class="main-content">
     <h1>User Registration</h1>
     <p>We are glad you are joining Song Shaker!</p>
     <p>Please complete the registration form below.</p>
@@ -21,32 +40,40 @@
         <h3>That username is unavailable.  Please try another username.</h3>
     </div>
 
-    <div>
-        <div>
+    <div class="pure-form pure-form-aligned">
+        <div class="pure-control-group">
             <label for="firstname">First Name:</label>
             <input type="text" name="firstname" id="firstname" data-ng-model="user.firstname"/>
         </div>
-        <div>
+        <div class="pure-control-group">
             <label for="lastname">Last Name:</label>
             <input type="text" name="lastname" id="lastname" data-ng-model="user.lastname"/>
         </div>
-        <div>
+        <div class="pure-control-group">
             <label for="emailaddress">Email Address:</label>
             <input type="text" name="emailAddress" id="emailaddress" data-ng-model="user.emailaddress"/>
         </div>
-        <div>
+        <div class="pure-control-group">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" data-ng-model="user.username"/>
         </div>
-        <div>
+        <div class="pure-control-group">
             <label for="password">Password:</label>
             <input type="text" name="password" id="password" data-ng-model="user.password"/>
         </div>
-        <div>
-            <input type="submit" value="Register" ng-click="registerUser()">
+        <div class="view-content">
+            <input type="submit" value="Register" ng-click="registerUser()" class="pure-button refresh login-button">
         </div>
     </div>
 
     <p>If you would like to return to the log in page, please click <a href="/login">here</a>.</p>
+
+</div>
+</div>
+
+<div class="footer">
+
+</div>
+
 </body>
 </html>
