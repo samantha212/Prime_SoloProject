@@ -5,6 +5,7 @@ body {
 
 .main-content {
     background-color: #FFFFFF;
+    border-top: solid 7px #637E13;
     margin: auto;
     padding: 15px;
     width: 1070px;
@@ -28,8 +29,8 @@ body {
 }
 
 .set-calculator {
-    background: #2B400B;
-    color: white;
+    /*background: #2B400B;*/
+    /*color: white;*/
     border-radius: 5px;
     width: 400px;
     margin: auto;
@@ -49,7 +50,7 @@ body {
 }
 
 .set-calc-logo {
-    background-color: #2B400B;
+    /*background-color: #2B400B;*/
     padding: 40px 0 20px 0;
 }
 
@@ -82,7 +83,7 @@ body {
     font-size: 25px;
 }
 
-.active-standard, .inactive-standard {
+.active-songs, .inactive-songs {
     width: 800px;
     height: 550px;
     border: 1px solid black;
@@ -123,12 +124,28 @@ body {
     padding: 0 15px;
 }
 
+.refresh {
+    background-color: #87A227;
+    color: #ffffff;
+    border: none;
+    box-shadow: 2px 2px 1px #383838;
+}
+
+.log-out-button {
+    background-color: #000000;
+    color: #ffffff;
+}
+.refresh a:link, .refresh a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
 .strike {
     text-decoration: line-through;
+    color: #2B400B;
 }
 
 .activated {
-    color: #f4f4f4;
+    color: #637E13;
 }
 .bold {
     font-weight: bold;
@@ -144,14 +161,24 @@ body {
 
 .logoholder {
     width: 500px;
-    margin: auto;
+    margin: 10px auto;
 }
 
-.logo, .set-calculator {
+.logo {
     border: 1px solid black;
     box-shadow: 7px 7px 5px black;
 }
 
+.set-calculator, .song-form, .library-section, .inactive-songs, .active-songs {
+    border: 1px solid black;
+    box-shadow: 7px 7px 5px #383838;
+}
+
+.set-calc-logo img {
+    border: 1px solid black;
+    box-shadow: 7px 7px 5px #383838;
+    border-radius: 3px;
+}
 .custom-menu {
     background-color: black;
     width: 500px;
@@ -174,3 +201,29 @@ body {
     background-color: #637e13;
 }
 
+.pure-control-group {
+    font-size: 18px;
+}
+
+.song-form {
+    padding: 30px;
+    width: 500px;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.button-holder {
+    width: 250px;
+    margin: auto;
+}
+
+.footer{
+    height: 20px;
+    width: 1070px;
+    margin: auto;
+    padding: 15px;
+    background-color: #2B400B;
+    /*border-bottom: solid 25px #000000;*/
+    border-top: solid 12px #637E13;
+
+}

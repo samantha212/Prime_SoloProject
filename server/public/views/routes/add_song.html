@@ -1,39 +1,33 @@
-<div ng-controller="AddSongController">
+<div ng-controller="AddSongController" class="view-content">
     <h1>Add a Song to Your Custom Database</h1>
-    <p>The Song Shaker App allows you to add songs to a personalized custom library.  You may add songs via the form below and manage your custom songs' active/inactive songs via the <a href="/customlibrary">Custom Library</a>.</p>
-
-        <div>
-            <label for="title">Song Title:</label>
-            <input type="text" name="title" id="title" data-ng-model="song.title"/>
-        </div>
-        <div>
-            <label for="artist">Artist:</label>
-            <input type="text" name="artist" id="artist" data-ng-model="song.artist"/>
-        </div>
-        <div>
-            <label for="key">Key:</label>
-            <input type="text" name="key" id="key" data-ng-model="song.key"/>
-        </div>
-        <div>
-            <label for="tempo">Tempo Category:</label>
-            <select name="tempo" id="tempo" data-ng-model="song.tempo">
-                <option value="Slow">Slow: 0-86 beats per minute</option>
-                <option value="Medium">Medium: 87-104 beats per minute</option>
-                <option value="Fast">Fast: 105-300 beats per minute</option>
-            </select>
-        </div>
-        <div>
-            <button ng-click="addSong()">Add Song to Custom Song Library</button>
-        </div>
-    </form>
-
-
-    <br>
-
-    <button><a href="/songfail">View Song Add Failed Page</a></button>
-    <button><a href="/songsuccess">View Song Add Success Page</a></button>
-
-
+    <p>The Song Shaker App allows you to add songs to a personalized custom library.  You may add songs via the form below and manage your custom songs' active/inactive status via the <a href="/customlibrary">Custom Library</a>.</p>
+    <div class="song-form">
+        <form class="pure-form pure-form-aligned">
+            <div class="pure-control-group">
+                <label for="title">Song Title:</label>
+                <input type="text" name="title" id="title" data-ng-model="song.title"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="artist">Artist:</label>
+                <input type="text" name="artist" id="artist" data-ng-model="song.artist"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="key">Key:</label>
+                <input type="text" name="key" id="key" data-ng-model="song.key"/>
+            </div>
+            <div class="pure-control-group">
+                <label for="tempo">Tempo Category:</label>
+                <select name="tempo" id="tempo" data-ng-model="song.tempo">
+                    <option value="Slow">Slow: 0-86 beats per minute</option>
+                    <option value="Medium">Medium: 87-104 beats per minute</option>
+                    <option value="Fast">Fast: 105-300 beats per minute</option>
+                </select>
+            </div>
+            <div class="button-holder">
+                <button class="pure-button refresh" ng-click="addSong()">Add Song to Custom Song Library</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 

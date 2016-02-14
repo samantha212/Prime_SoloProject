@@ -1,12 +1,10 @@
-<div ng-controller="StandardLibraryController" ng-init="getStandard()">
+<div ng-controller="StandardLibraryController" ng-init="getStandard()" class="view-content">
     <h1>Standard Song Shaker Library</h1>
-    <button><a href="/customlibrary">Go To Custom Library Page</a></button>
+    <!--<button><a href="/customlibrary">Go To Custom Library Page</a></button>-->
     <p>The Song Shaker App comes with a standard library of 200 songs!</p>
+    <p>Your personalized library settings are shown below, with active standard songs and inactive standard songs listed separately.  You may update your settings using the checkboxes to the left of each song.</p>
     <p>You also have the option to add custom songs via the <a href="/addsong">Add Song</a> page and can view your custom songs in the <a href="/customlibrary">Custom Library</a>.</p>
-    <p>Your personalized library settings are shown below, with active standard songs and inactive standard songs listed separately.</p>
-    <p>You may update your settings using the checkboxes to the left of each song.</p>
-    <br>
-    <button ng-click="getStandard()">Refresh Standard Library</a></button>
+    <button class="refresh pure-button" ng-click="getStandard()">Refresh Standard Library</a></button>
 
 
     <h3 class="library-section">Active Songs</h3>
@@ -14,7 +12,7 @@
         <p>If you do not want an active song to be available for use in your set lists, please click its corresponding "deactivate" checkbox to the right of the song details.</p>
     </div>
 
-    <div class="active-standard">
+    <div class="active-songs">
         <div ng-repeat="song in libraryActive">
             <div class="{{song.status}}">
                 <div class="pure-g">
@@ -36,7 +34,7 @@
         <p>If you would like to make an inactive song available for use in your set lists, please click its corresponding "activate" checkbox to the right of the song details.</p>
     </div>
 
-    <div class="inactive-standard">
+    <div class="inactive-songs">
         <div ng-repeat="song in libraryInactive">
             <div class="{{song.status}}">
                 <div class="pure-g">
