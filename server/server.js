@@ -114,7 +114,9 @@ passport.use('local', new localStrategy({
 //[][][][][][][][][][][][][][][][][][][][][][][][]
 //            SERVER SET UP
 //[][][][][][][][][][][][][][][][][][][][][][][][]
-var server = app.listen(3000, function(){
+app.set("port", process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function(){
     var port = server.address().port;
     console.log('Listening on port', port);
 });
