@@ -6,31 +6,27 @@ var mainApp = angular.module('mainApp', ['ngRoute']);
 
 mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
     $routeProvider
-        .when('/addsong', {
+        .when('/addSong', {
             templateUrl: 'views/routes/add_song.html',
             controller: "AddSongController"
         })
-        .when('/customlibrary', {
+        .when('/customLibrary', {
             templateUrl: 'views/routes/library_custom.html',
             controller: "CustomLibraryController"
         })
-        .when('/standardlibrary', {
+        .when('/standardLibrary', {
             templateUrl: 'views/routes/library_standard.html',
             controller: "StandardLibraryController"
         })
-        .when('/refreshstandardlibrary', {
-            templateUrl: 'views/routes/library_standard.html',
-            controller: "StandardLibraryController"
-        })
-        .when('/setlist', {
+        .when('/setList', {
             templateUrl: 'views/routes/set_list.html',
             controller: "SetListController"
         })
-        .when('/songfail', {
+        .when('/songFail', {
             templateUrl: 'views/routes/song_fail.html',
             controller: "SongFailController"
         })
-        .when('/songsuccess', {
+        .when('/songSuccess', {
             templateUrl: 'views/routes/song_success.html',
             controller: "SongSuccessController"
         })
@@ -72,15 +68,15 @@ mainApp.controller('AddSongController', ['$http', '$location', '$scope', functio
 
     function sendSong() {
         $http({
-            url: '/addsong',
+            url: '/addSong',
             method: 'POST',
             data: $scope.song
         }).then(function successCallback(response) {
             console.log(response);
-            $location.path('/songsuccess');
+            $location.path('/songSuccess');
         }, function errorCallback(response) {
             console.log('Error', response.status);
-            $location.path('/songfail');
+            $location.path('/songFail');
 
         });
     }
