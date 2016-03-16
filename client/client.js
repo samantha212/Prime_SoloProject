@@ -199,11 +199,7 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', function($ht
         });
     };
 
-    $scope.getStandard = function() {
-        getLib();
-    };
-
-    function getLib(){
+    $scope.getStandard = function(){
         $http({
             method: 'GET',
             url: '/standard_lib'
@@ -215,7 +211,7 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', function($ht
         }, function errorCallback(response) {
             console.log('Error', response);
         });
-    }
+    };
 
     function populateSongStatus(array){
         for (var i=0; i<array.length; i++){
