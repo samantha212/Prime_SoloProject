@@ -151,13 +151,11 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
 
 }]);
 
-mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location', '$route', '$routeParams', function($http, $scope, $location, $route, $routeParams) {
+mainApp.controller('StandardLibraryController', ['$http', '$scope', function($http, $scope) {
 
     $scope.libraryActive = [];
     $scope.libraryInactive = [];
-    //$scope.checkbox = {};
     $scope.songStatus = {};
-    //$scope.refresh = $route.reload();
 
     $scope.deactivateSong = function(info) {
         var thisSongId = info.song_id;
@@ -171,13 +169,11 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
     };
 
     function deactivateOnDB(info) {
-        console.log("deactivate", info.song_id);
         $http({
             method: 'POST',
             url: '/deactivate',
             data: info
         }).then(function successCallback(response){
-            console.log(response);
         }, function errorCallback(response) {
             console.log('Error', response.status);
         });
@@ -196,13 +192,11 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
     };
 
     function activateOnDB(info) {
-        console.log("activate", info.song_id);
         $http({
             method: 'POST',
             url: '/activate',
             data: info
         }).then(function successCallback(response){
-            console.log(response);
         }, function errorCallback(response) {
             console.log('Error', response.status);
         });
@@ -217,7 +211,6 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
             method: 'GET',
             url: '/standard_lib'
         }).then(function successCallback(response){
-            console.log(response);
             $scope.libraryActive  = response.data.active;
             $scope.libraryInactive  = response.data.inactive;
             populateSongStatus(response.data.active);
@@ -229,13 +222,9 @@ mainApp.controller('StandardLibraryController', ['$http', '$scope', '$location',
 
     function populateSongStatus(array){
         for (var i=0; i<array.length; i++){
-            //var thisId = "array[" + i + "].song_id";
             var songId = array[i].song_id;
-            //var thisStatus = "array[" + i + "].status";
             $scope.songStatus[songId] = array[i].status;
-
         }
-        console.log($scope.songStatus);
     };
 
 }]);
