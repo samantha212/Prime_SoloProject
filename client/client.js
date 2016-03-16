@@ -23,12 +23,10 @@ mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, 
             controller: "SetListController"
         })
         .when('/songFail', {
-            templateUrl: 'views/routes/song_fail.html',
-            controller: "SongFailController"
+            templateUrl: 'views/routes/song_fail.html'
         })
         .when('/songSuccess', {
-            templateUrl: 'views/routes/song_success.html',
-            controller: "SongSuccessController"
+            templateUrl: 'views/routes/song_success.html'
         })
         .otherwise( {
             templateUrl: 'views/routes/welcome.html'
@@ -66,7 +64,6 @@ mainApp.controller('AddSongController', ['$http', '$location', '$scope', functio
             method: 'POST',
             data: $scope.song
         }).then(function successCallback(response) {
-            console.log(response);
             $location.path('/songSuccess');
         }, function errorCallback(response) {
             console.log('Error', response.status);
@@ -239,25 +236,17 @@ mainApp.controller('SetListController', ['$scope', '$http', function($scope, $ht
     $scope.getSets = getLists;
 
     function getLists(setInfo) {
-        console.log(setInfo);
         $http({
             method: 'POST',
             url: '/getset',
             data: setInfo
+
         }).then(function successCallback(response){
-            console.log(response);
             $scope.setResults = response.data;
+
         }, function errorCallback(response) {
             console.log('Error', response);
         });
     }
 
 }]);
-
-mainApp.controller('SongFailController', function() {
-
-});
-
-mainApp.controller('SongSuccessController', function() {
-
-});
