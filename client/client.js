@@ -31,8 +31,7 @@ mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider, 
             controller: "SongSuccessController"
         })
         .otherwise( {
-            templateUrl: 'views/routes/welcome.html',
-            controller: "WelcomeController"
+            templateUrl: 'views/routes/welcome.html'
         });
 
     $locationProvider.html5Mode({
@@ -56,10 +55,6 @@ mainApp.controller('MainController', ['$scope', '$http', '$location', function($
     }
 
 }]);
-
-mainApp.controller('WelcomeController', function() {
-
-});
 
 mainApp.controller('AddSongController', ['$http', '$location', '$scope', function($http, $location, $scope) {
     $scope.song = {};
@@ -88,13 +83,11 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
 
     $scope.getCustom = getCustomLib;
 
-    //This runs twice when the page is loaded.  Revisit to address.
     function getCustomLib(){
         $http({
             method: 'GET',
             url: '/custom_lib'
         }).then(function successCallback(response){
-            console.log(response);
             $scope.customLibraryActive = response.data.active;
             $scope.customLibraryInactive = response.data.inactive;
             populateSongStatus(response.data.active);
@@ -104,18 +97,17 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
         });
     }
 
+    // Creates scope object to hold true/false values for song ids.
+    // Use this to activate and deactivate on the database.
     function populateSongStatus(array){
         for (var i=0; i<array.length; i++){
             var songId = array[i].custom_song_id;
             $scope.songStatus[songId] = array[i].include;
         }
-        console.log($scope.songStatus);
-    };
+    }
 
     $scope.deactivateSong = function(info) {
         var thisSongId = info.custom_song_id;
-        console.log("info", info);
-        console.log("thisSongId", thisSongId);
         if($scope.songStatus[thisSongId] == true){
             deactivateOnDB(info);
             $scope.songStatus[thisSongId] = false;
@@ -144,7 +136,7 @@ mainApp.controller('CustomLibraryController', ['$http', '$scope', function($http
             url: '/activate_custom',
             data: info
         })
-    };
+    }
 
     $scope.activateSong = function(info){
         var thisSongId = info.custom_song_id;
