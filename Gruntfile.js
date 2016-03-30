@@ -7,6 +7,7 @@ module.exports = function(grunt) {
                     expand: true,
                     src: 'client/*.js',
                     dest: 'server/public/assets/scripts',
+                    ext: '.min.js'
                 }]
             }
         },
@@ -37,5 +38,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['copy', 'uglify', 'watch']);
+    grunt.registerTask('default', ['copy', 'uglify']);
 };
