@@ -1,6 +1,6 @@
-var app = angular.module('logInApp', []);
+var app = angular.module('logInApp');
 
-app.controller('ButtonController', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('ButtonController', ['$scope', function($scope){
 
     $scope.goToRegistration = function () {
         var currentLocation = location.origin;
