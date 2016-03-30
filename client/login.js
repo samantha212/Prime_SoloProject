@@ -1,4 +1,4 @@
-var app = angular.module('indexApp', []);
+var app = angular.module('logInApp', []);
 
 app.controller('ButtonController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
@@ -13,7 +13,7 @@ app.controller('ButtonController', ['$scope', '$http', '$location', function($sc
         var newLocation = currentLocation + "/login";
         window.location.assign(newLocation);
     };
-}]);
 
+}]);
 
 
