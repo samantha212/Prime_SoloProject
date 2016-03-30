@@ -8,8 +8,6 @@ var pg = require('pg');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-pg.defaults.poolsize = 50;
-
 var index = require('./routes/index');
 var registration = require('./routes/registration');
 var shaker = require('./routes/shaker');
@@ -26,6 +24,9 @@ var localStrategy = require('passport-local').Strategy;
 var app = express();
 
 var connectionString = 'postgres://localhost:5432/song_shaker';
+
+//Pool size for PostgreSQL
+pg.defaults.poolsize = 50;
 
 app.use(express.static(path.join(__dirname, './public')));
 
@@ -61,17 +62,14 @@ app.use('/activate_custom', activateCustom);
 app.use('/', index);
 
 app.get('/*', function(request, response){
-        response.redirect('/home');
-    });
-
+    response.sendFile(path.join(__dirname, '../server/public/views/home.html'));
+});
 
 passport.serializeUser(function(user, done){
-    //console.log('serializeUser', user);
     done(null, user.user_id);
 });
 
 passport.deserializeUser(function(id, done){
-    //console.log('deserializeUser', id);
     pg.connect(connectionString, function(err, client){
         var user = {};
 
@@ -79,7 +77,6 @@ passport.deserializeUser(function(id, done){
 
         query.on('row', function(row){
             user = row;
-            //console.log('User object', user);
             done(null, user);
         })
     })
@@ -88,6 +85,7 @@ passport.deserializeUser(function(id, done){
 passport.use('local', new localStrategy({
     passReqToCallback: true,
     usernameField: 'username'
+
 }, function (req, username, password, done){
     pg.connect(connectionString, function(err, client){
         var user = {};
