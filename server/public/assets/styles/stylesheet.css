@@ -17,6 +17,17 @@ h4 {
     min-height: 700px;
 }
 
+.formContent {
+    width: 600px;
+    margin: auto;
+}
+
+.goRegister {
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
 .view-content {
     padding: 25px;
 }
